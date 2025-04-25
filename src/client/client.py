@@ -1,33 +1,31 @@
 from __future__ import annotations as _annotations
 
-
 import json
 from contextlib import asynccontextmanager
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Annotated, Literal 
+from typing import Annotated
 
 import fastapi
 import logfire
-from fastapi import Depends, Request
+from fastapi import Depends
 from fastapi.responses import FileResponse, Response, StreamingResponse
-from typing_extensions import TypedDict
 
-from client_lib.agent import agent
-from client_lib.database import Database
-
-from pydantic_ai.exceptions import UnexpectedModelBehavior
 from pydantic_ai.messages import (
-    ModelMessage,
-    ModelRequest,
     ModelResponse,
-    TextPart,
-    UserPromptPart,
+    TextPart
 )
+from client_lib.agent import agent
+from client_lib.database import Database, get_db
+from client_lib.chat import to_chat_message
+from client_lib.context_generator import ContextGenerator
+
 
 # 'if-token-present' means nothing will be sent (and the example will work) if you don't have logfire configured
 logfire.configure(send_to_logfire='if-token-present')
+
+
 
 
 THIS_DIR = Path(__file__).parent
@@ -54,10 +52,6 @@ async def main_ts() -> FileResponse:
     return FileResponse((THIS_DIR / 'chat_app.ts'), media_type='text/plain')
 
 
-async def get_db(request: Request) -> Database:
-    return request.state.db
-
-
 @app.get('/chat/')
 async def get_chat(database: Database = Depends(get_db)) -> Response:
     msgs = await database.get_messages()
@@ -65,35 +59,6 @@ async def get_chat(database: Database = Depends(get_db)) -> Response:
         b'\n'.join(json.dumps(to_chat_message(m)).encode('utf-8') for m in msgs),
         media_type='text/plain',
     )
-
-
-class ChatMessage(TypedDict):
-    """Format of messages sent to the browser."""
-
-    role: Literal['user', 'model']
-    timestamp: str
-    content: str
-
-
-def to_chat_message(m: ModelMessage) -> ChatMessage:
-    first_part = m.parts[0]
-    if isinstance(m, ModelRequest):
-        if isinstance(first_part, UserPromptPart):
-            assert isinstance(first_part.content, str)
-            return {
-                'role': 'user',
-                'timestamp': first_part.timestamp.isoformat(),
-                'content': first_part.content,
-            }
-    elif isinstance(m, ModelResponse):
-        if isinstance(first_part, TextPart):
-            return {
-                'role': 'model',
-                'timestamp': m.timestamp.isoformat(),
-                'content': first_part.content,
-            }
-    raise UnexpectedModelBehavior(f'Unexpected message type for chat app: {m}')
-
 
 @app.post('/chat/')
 async def post_chat(
@@ -112,6 +77,7 @@ async def post_chat(
             ).encode('utf-8')
             + b'\n'
         )
+        
         # get the chat history so far to pass as context to the agent
         messages = await database.get_messages()
         # run the agent with the user prompt and the chat history
@@ -119,6 +85,8 @@ async def post_chat(
             async for text in result.stream(debounce_by=0.01):
                 # text here is a `str` and the frontend wants
                 # JSON encoded ModelResponse, so we create one
+                ctx_gen = ContextGenerator(agent, database)
+                ctx_gen = await ctx_gen.get_and_execute_tool(text)
                 m = ModelResponse(parts=[TextPart(text)], timestamp=result.timestamp())
                 yield json.dumps(to_chat_message(m)).encode('utf-8') + b'\n'
 
@@ -131,5 +99,5 @@ if __name__ == '__main__':
     import uvicorn
 
     uvicorn.run(
-        'client:app', host='127.0.0.1', port=8001, reload=True, reload_dirs=[str(THIS_DIR)]
+        'client:app', port=2002, reload=True, reload_dirs=[str(THIS_DIR)]
     )

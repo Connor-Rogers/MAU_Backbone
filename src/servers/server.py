@@ -1,17 +1,19 @@
-from prompts.prompts import Prompts
-from typing import Any
-import httpx
 from mcp.server.fastmcp import FastMCP
 
-mcp = FastMCP("agents")
+from pydantic_ai import Agent
+
+server = FastMCP('PydanticAI Server')
+server_agent = Agent(
+    'openai:gpt-4o-mini', system_prompt='always reply in rhyme'
+)
 
 
+@server.tool()
+async def poet(theme: str) -> str:
+    """Poem generator"""
+    r = await server_agent.run(f'write a poem about {theme}')
+    return r.output
 
-mcp.add_prompt(prompt=Prompts.get_prompt("greeting"), name="greeting")
 
-
-@mcp.tool("hotel_finder", description="Find hotels in a given location.")
-def find_hotels() -> Any:
-    """
-    Find hotels in a given location.
-    """
+if __name__ == '__main__':
+    server.run()

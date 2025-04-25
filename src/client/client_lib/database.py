@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from functools import partial
 from pathlib import Path
 from typing import Any, Callable, LiteralString, ParamSpec, TypeVar
+from fastapi import Request
 import logfire
 
 from pydantic_ai.messages import (
@@ -16,6 +17,7 @@ from pydantic_ai.messages import (
 P = ParamSpec('P')
 R = TypeVar('R')
 THIS_DIR = Path(__file__).parent
+
 
 @dataclass
 class Database:
@@ -91,3 +93,6 @@ class Database:
             partial(func, **kwargs),
             *args,  # type: ignore
         )
+
+async def get_db(request: Request) -> Database:
+    return request.state.db
