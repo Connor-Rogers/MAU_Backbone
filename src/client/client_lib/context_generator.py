@@ -5,7 +5,6 @@ import os
 from client_lib.database import Database
 import difflib
 from client_lib.chat import to_chat_message
-from pydantic_ai.messages import TextPart
 
 
 server_params = StdioServerParameters(

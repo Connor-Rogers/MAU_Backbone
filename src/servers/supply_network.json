@@ -1,0 +1,4535 @@
+{
+  "nodes": [
+    {
+      "id": "Company_000",
+      "name": "Company_000",
+      "industry": "Machinery",
+      "region": "Paris",
+      "segments": [
+        "Food"
+      ],
+      "network_joined": "2022-04-07"
+    },
+    {
+      "id": "Company_001",
+      "name": "Company_001",
+      "industry": "Fashion",
+      "region": "Tokyo",
+      "segments": [
+        "Logistics",
+        "Aerospace",
+        "Energy"
+      ],
+      "network_joined": "2019-12-31"
+    },
+    {
+      "id": "Company_002",
+      "name": "Company_002",
+      "industry": "Logistics",
+      "region": "Los Angeles",
+      "segments": [
+        "Machinery"
+      ],
+      "network_joined": "2021-02-26"
+    },
+    {
+      "id": "Company_003",
+      "name": "Company_003",
+      "industry": "Machinery",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Fashion"
+      ],
+      "network_joined": "2018-07-25"
+    },
+    {
+      "id": "Company_004",
+      "name": "Company_004",
+      "industry": "Retail",
+      "region": "Toronto",
+      "segments": [
+        "Aerospace",
+        "Machinery"
+      ],
+      "network_joined": "2023-09-07"
+    },
+    {
+      "id": "Company_005",
+      "name": "Company_005",
+      "industry": "Logistics",
+      "region": "Los Angeles",
+      "segments": [
+        "Fashion"
+      ],
+      "network_joined": "2022-03-07"
+    },
+    {
+      "id": "Company_006",
+      "name": "Company_006",
+      "industry": "Retail",
+      "region": "London",
+      "segments": [
+        "Pharmaceuticals",
+        "Aerospace",
+        "Automotive"
+      ],
+      "network_joined": "2017-10-18"
+    },
+    {
+      "id": "Company_007",
+      "name": "Company_007",
+      "industry": "Aerospace",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Fashion",
+        "Energy"
+      ],
+      "network_joined": "2021-05-06"
+    },
+    {
+      "id": "Company_008",
+      "name": "Company_008",
+      "industry": "Energy",
+      "region": "Mumbai",
+      "segments": [
+        "Machinery",
+        "Food",
+        "Fashion"
+      ],
+      "network_joined": "2021-02-18"
+    },
+    {
+      "id": "Company_009",
+      "name": "Company_009",
+      "industry": "Automotive",
+      "region": "Tokyo",
+      "segments": [
+        "Aerospace",
+        "Food",
+        "Pharmaceuticals"
+      ],
+      "network_joined": "2019-01-31"
+    },
+    {
+      "id": "Company_010",
+      "name": "Company_010",
+      "industry": "Fashion",
+      "region": "Paris",
+      "segments": [
+        "Energy"
+      ],
+      "network_joined": "2018-10-01"
+    },
+    {
+      "id": "Company_011",
+      "name": "Company_011",
+      "industry": "Machinery",
+      "region": "Los Angeles",
+      "segments": [
+        "Aerospace",
+        "Pharmaceuticals",
+        "Energy"
+      ],
+      "network_joined": "2020-08-11"
+    },
+    {
+      "id": "Company_012",
+      "name": "Company_012",
+      "industry": "Energy",
+      "region": "New York",
+      "segments": [
+        "Fashion"
+      ],
+      "network_joined": "2023-12-27"
+    },
+    {
+      "id": "Company_013",
+      "name": "Company_013",
+      "industry": "Electronics",
+      "region": "New York",
+      "segments": [
+        "Machinery"
+      ],
+      "network_joined": "2019-08-26"
+    },
+    {
+      "id": "Company_014",
+      "name": "Company_014",
+      "industry": "Aerospace",
+      "region": "London",
+      "segments": [
+        "Electronics"
+      ],
+      "network_joined": "2021-03-25"
+    },
+    {
+      "id": "Company_015",
+      "name": "Company_015",
+      "industry": "Pharmaceuticals",
+      "region": "Mumbai",
+      "segments": [
+        "Fashion"
+      ],
+      "network_joined": "2023-07-17"
+    },
+    {
+      "id": "Company_016",
+      "name": "Company_016",
+      "industry": "Fashion",
+      "region": "Mumbai",
+      "segments": [
+        "Retail",
+        "Electronics"
+      ],
+      "network_joined": "2024-02-23"
+    },
+    {
+      "id": "Company_017",
+      "name": "Company_017",
+      "industry": "Pharmaceuticals",
+      "region": "Shanghai",
+      "segments": [
+        "Energy",
+        "Automotive"
+      ],
+      "network_joined": "2018-01-15"
+    },
+    {
+      "id": "Company_018",
+      "name": "Company_018",
+      "industry": "Machinery",
+      "region": "Berlin",
+      "segments": [
+        "Pharmaceuticals",
+        "Fashion",
+        "Logistics"
+      ],
+      "network_joined": "2021-07-29"
+    },
+    {
+      "id": "Company_019",
+      "name": "Company_019",
+      "industry": "Retail",
+      "region": "Los Angeles",
+      "segments": [
+        "Automotive"
+      ],
+      "network_joined": "2022-05-29"
+    },
+    {
+      "id": "Company_020",
+      "name": "Company_020",
+      "industry": "Machinery",
+      "region": "New York",
+      "segments": [
+        "Fashion",
+        "Logistics"
+      ],
+      "network_joined": "2016-10-26"
+    },
+    {
+      "id": "Company_021",
+      "name": "Company_021",
+      "industry": "Fashion",
+      "region": "Los Angeles",
+      "segments": [
+        "Retail",
+        "Machinery",
+        "Logistics"
+      ],
+      "network_joined": "2016-01-03"
+    },
+    {
+      "id": "Company_022",
+      "name": "Company_022",
+      "industry": "Machinery",
+      "region": "Los Angeles",
+      "segments": [
+        "Fashion",
+        "Pharmaceuticals"
+      ],
+      "network_joined": "2019-06-17"
+    },
+    {
+      "id": "Company_023",
+      "name": "Company_023",
+      "industry": "Electronics",
+      "region": "Shanghai",
+      "segments": [
+        "Aerospace",
+        "Machinery"
+      ],
+      "network_joined": "2021-02-25"
+    },
+    {
+      "id": "Company_024",
+      "name": "Company_024",
+      "industry": "Machinery",
+      "region": "London",
+      "segments": [
+        "Aerospace",
+        "Retail",
+        "Fashion"
+      ],
+      "network_joined": "2024-10-22"
+    },
+    {
+      "id": "Company_025",
+      "name": "Company_025",
+      "industry": "Pharmaceuticals",
+      "region": "Tokyo",
+      "segments": [
+        "Food",
+        "Machinery",
+        "Energy"
+      ],
+      "network_joined": "2018-08-22"
+    },
+    {
+      "id": "Company_026",
+      "name": "Company_026",
+      "industry": "Pharmaceuticals",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Aerospace",
+        "Energy",
+        "Machinery"
+      ],
+      "network_joined": "2021-03-12"
+    },
+    {
+      "id": "Company_027",
+      "name": "Company_027",
+      "industry": "Retail",
+      "region": "Paris",
+      "segments": [
+        "Logistics",
+        "Electronics"
+      ],
+      "network_joined": "2020-04-26"
+    },
+    {
+      "id": "Company_028",
+      "name": "Company_028",
+      "industry": "Food",
+      "region": "Mumbai",
+      "segments": [
+        "Machinery",
+        "Retail",
+        "Fashion"
+      ],
+      "network_joined": "2023-07-25"
+    },
+    {
+      "id": "Company_029",
+      "name": "Company_029",
+      "industry": "Aerospace",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Automotive",
+        "Retail"
+      ],
+      "network_joined": "2022-05-17"
+    },
+    {
+      "id": "Company_030",
+      "name": "Company_030",
+      "industry": "Electronics",
+      "region": "London",
+      "segments": [
+        "Automotive"
+      ],
+      "network_joined": "2023-12-11"
+    },
+    {
+      "id": "Company_031",
+      "name": "Company_031",
+      "industry": "Pharmaceuticals",
+      "region": "Paris",
+      "segments": [
+        "Machinery",
+        "Food",
+        "Logistics"
+      ],
+      "network_joined": "2019-04-06"
+    },
+    {
+      "id": "Company_032",
+      "name": "Company_032",
+      "industry": "Machinery",
+      "region": "Toronto",
+      "segments": [
+        "Fashion",
+        "Energy"
+      ],
+      "network_joined": "2015-05-25"
+    },
+    {
+      "id": "Company_033",
+      "name": "Company_033",
+      "industry": "Energy",
+      "region": "Mumbai",
+      "segments": [
+        "Retail",
+        "Machinery"
+      ],
+      "network_joined": "2016-02-29"
+    },
+    {
+      "id": "Company_034",
+      "name": "Company_034",
+      "industry": "Energy",
+      "region": "Berlin",
+      "segments": [
+        "Logistics",
+        "Fashion",
+        "Pharmaceuticals"
+      ],
+      "network_joined": "2023-07-27"
+    },
+    {
+      "id": "Company_035",
+      "name": "Company_035",
+      "industry": "Electronics",
+      "region": "Paris",
+      "segments": [
+        "Machinery",
+        "Automotive",
+        "Energy"
+      ],
+      "network_joined": "2023-02-12"
+    },
+    {
+      "id": "Company_036",
+      "name": "Company_036",
+      "industry": "Aerospace",
+      "region": "Shanghai",
+      "segments": [
+        "Pharmaceuticals",
+        "Food"
+      ],
+      "network_joined": "2022-10-02"
+    },
+    {
+      "id": "Company_037",
+      "name": "Company_037",
+      "industry": "Pharmaceuticals",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Machinery"
+      ],
+      "network_joined": "2020-09-06"
+    },
+    {
+      "id": "Company_038",
+      "name": "Company_038",
+      "industry": "Energy",
+      "region": "Berlin",
+      "segments": [
+        "Logistics",
+        "Electronics",
+        "Automotive"
+      ],
+      "network_joined": "2020-05-18"
+    },
+    {
+      "id": "Company_039",
+      "name": "Company_039",
+      "industry": "Automotive",
+      "region": "Shanghai",
+      "segments": [
+        "Machinery",
+        "Retail",
+        "Logistics"
+      ],
+      "network_joined": "2024-10-21"
+    },
+    {
+      "id": "Company_040",
+      "name": "Company_040",
+      "industry": "Pharmaceuticals",
+      "region": "Tokyo",
+      "segments": [
+        "Fashion"
+      ],
+      "network_joined": "2022-10-24"
+    },
+    {
+      "id": "Company_041",
+      "name": "Company_041",
+      "industry": "Energy",
+      "region": "Tokyo",
+      "segments": [
+        "Aerospace"
+      ],
+      "network_joined": "2023-06-06"
+    },
+    {
+      "id": "Company_042",
+      "name": "Company_042",
+      "industry": "Machinery",
+      "region": "Shanghai",
+      "segments": [
+        "Logistics",
+        "Energy"
+      ],
+      "network_joined": "2023-08-25"
+    },
+    {
+      "id": "Company_043",
+      "name": "Company_043",
+      "industry": "Machinery",
+      "region": "Tokyo",
+      "segments": [
+        "Food",
+        "Retail"
+      ],
+      "network_joined": "2015-06-30"
+    },
+    {
+      "id": "Company_044",
+      "name": "Company_044",
+      "industry": "Energy",
+      "region": "Los Angeles",
+      "segments": [
+        "Electronics",
+        "Retail",
+        "Fashion"
+      ],
+      "network_joined": "2023-06-27"
+    },
+    {
+      "id": "Company_045",
+      "name": "Company_045",
+      "industry": "Pharmaceuticals",
+      "region": "Toronto",
+      "segments": [
+        "Logistics",
+        "Fashion"
+      ],
+      "network_joined": "2021-09-26"
+    },
+    {
+      "id": "Company_046",
+      "name": "Company_046",
+      "industry": "Energy",
+      "region": "New York",
+      "segments": [
+        "Retail"
+      ],
+      "network_joined": "2018-02-03"
+    },
+    {
+      "id": "Company_047",
+      "name": "Company_047",
+      "industry": "Electronics",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Energy",
+        "Retail",
+        "Aerospace"
+      ],
+      "network_joined": "2016-09-16"
+    },
+    {
+      "id": "Company_048",
+      "name": "Company_048",
+      "industry": "Logistics",
+      "region": "New York",
+      "segments": [
+        "Aerospace"
+      ],
+      "network_joined": "2022-03-30"
+    },
+    {
+      "id": "Company_049",
+      "name": "Company_049",
+      "industry": "Automotive",
+      "region": "Shanghai",
+      "segments": [
+        "Food",
+        "Fashion",
+        "Retail"
+      ],
+      "network_joined": "2016-03-21"
+    },
+    {
+      "id": "Company_050",
+      "name": "Company_050",
+      "industry": "Energy",
+      "region": "Mumbai",
+      "segments": [
+        "Machinery"
+      ],
+      "network_joined": "2015-09-01"
+    },
+    {
+      "id": "Company_051",
+      "name": "Company_051",
+      "industry": "Aerospace",
+      "region": "Berlin",
+      "segments": [
+        "Machinery"
+      ],
+      "network_joined": "2021-12-11"
+    },
+    {
+      "id": "Company_052",
+      "name": "Company_052",
+      "industry": "Food",
+      "region": "Mumbai",
+      "segments": [
+        "Pharmaceuticals"
+      ],
+      "network_joined": "2018-12-07"
+    },
+    {
+      "id": "Company_053",
+      "name": "Company_053",
+      "industry": "Food",
+      "region": "Shanghai",
+      "segments": [
+        "Logistics"
+      ],
+      "network_joined": "2016-03-06"
+    },
+    {
+      "id": "Company_054",
+      "name": "Company_054",
+      "industry": "Pharmaceuticals",
+      "region": "Toronto",
+      "segments": [
+        "Automotive",
+        "Logistics",
+        "Aerospace"
+      ],
+      "network_joined": "2019-05-16"
+    },
+    {
+      "id": "Company_055",
+      "name": "Company_055",
+      "industry": "Food",
+      "region": "Los Angeles",
+      "segments": [
+        "Aerospace",
+        "Fashion"
+      ],
+      "network_joined": "2024-02-27"
+    },
+    {
+      "id": "Company_056",
+      "name": "Company_056",
+      "industry": "Pharmaceuticals",
+      "region": "New York",
+      "segments": [
+        "Machinery",
+        "Energy",
+        "Logistics"
+      ],
+      "network_joined": "2023-07-01"
+    },
+    {
+      "id": "Company_057",
+      "name": "Company_057",
+      "industry": "Fashion",
+      "region": "Tokyo",
+      "segments": [
+        "Food",
+        "Electronics"
+      ],
+      "network_joined": "2016-12-11"
+    },
+    {
+      "id": "Company_058",
+      "name": "Company_058",
+      "industry": "Aerospace",
+      "region": "Tokyo",
+      "segments": [
+        "Energy"
+      ],
+      "network_joined": "2017-11-18"
+    },
+    {
+      "id": "Company_059",
+      "name": "Company_059",
+      "industry": "Food",
+      "region": "Los Angeles",
+      "segments": [
+        "Pharmaceuticals",
+        "Aerospace"
+      ],
+      "network_joined": "2020-02-17"
+    },
+    {
+      "id": "Company_060",
+      "name": "Company_060",
+      "industry": "Automotive",
+      "region": "London",
+      "segments": [
+        "Energy",
+        "Food",
+        "Retail"
+      ],
+      "network_joined": "2017-07-15"
+    },
+    {
+      "id": "Company_061",
+      "name": "Company_061",
+      "industry": "Electronics",
+      "region": "New York",
+      "segments": [
+        "Machinery",
+        "Logistics"
+      ],
+      "network_joined": "2015-03-18"
+    },
+    {
+      "id": "Company_062",
+      "name": "Company_062",
+      "industry": "Food",
+      "region": "London",
+      "segments": [
+        "Automotive",
+        "Fashion"
+      ],
+      "network_joined": "2020-10-15"
+    },
+    {
+      "id": "Company_063",
+      "name": "Company_063",
+      "industry": "Energy",
+      "region": "Berlin",
+      "segments": [
+        "Pharmaceuticals"
+      ],
+      "network_joined": "2016-12-18"
+    },
+    {
+      "id": "Company_064",
+      "name": "Company_064",
+      "industry": "Logistics",
+      "region": "New York",
+      "segments": [
+        "Aerospace"
+      ],
+      "network_joined": "2017-01-05"
+    },
+    {
+      "id": "Company_065",
+      "name": "Company_065",
+      "industry": "Pharmaceuticals",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Food"
+      ],
+      "network_joined": "2023-09-24"
+    },
+    {
+      "id": "Company_066",
+      "name": "Company_066",
+      "industry": "Automotive",
+      "region": "Tokyo",
+      "segments": [
+        "Logistics",
+        "Food",
+        "Pharmaceuticals"
+      ],
+      "network_joined": "2023-02-01"
+    },
+    {
+      "id": "Company_067",
+      "name": "Company_067",
+      "industry": "Electronics",
+      "region": "Tokyo",
+      "segments": [
+        "Fashion",
+        "Automotive",
+        "Retail"
+      ],
+      "network_joined": "2016-11-25"
+    },
+    {
+      "id": "Company_068",
+      "name": "Company_068",
+      "industry": "Machinery",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Energy"
+      ],
+      "network_joined": "2017-07-03"
+    },
+    {
+      "id": "Company_069",
+      "name": "Company_069",
+      "industry": "Aerospace",
+      "region": "Tokyo",
+      "segments": [
+        "Energy"
+      ],
+      "network_joined": "2017-05-26"
+    },
+    {
+      "id": "Company_070",
+      "name": "Company_070",
+      "industry": "Food",
+      "region": "Mumbai",
+      "segments": [
+        "Automotive",
+        "Energy",
+        "Electronics"
+      ],
+      "network_joined": "2019-04-28"
+    },
+    {
+      "id": "Company_071",
+      "name": "Company_071",
+      "industry": "Energy",
+      "region": "Mumbai",
+      "segments": [
+        "Automotive",
+        "Food"
+      ],
+      "network_joined": "2020-06-08"
+    },
+    {
+      "id": "Company_072",
+      "name": "Company_072",
+      "industry": "Retail",
+      "region": "New York",
+      "segments": [
+        "Energy"
+      ],
+      "network_joined": "2024-11-12"
+    },
+    {
+      "id": "Company_073",
+      "name": "Company_073",
+      "industry": "Logistics",
+      "region": "Tokyo",
+      "segments": [
+        "Aerospace",
+        "Machinery"
+      ],
+      "network_joined": "2021-12-20"
+    },
+    {
+      "id": "Company_074",
+      "name": "Company_074",
+      "industry": "Logistics",
+      "region": "Mumbai",
+      "segments": [
+        "Machinery",
+        "Food"
+      ],
+      "network_joined": "2024-07-19"
+    },
+    {
+      "id": "Company_075",
+      "name": "Company_075",
+      "industry": "Energy",
+      "region": "Mumbai",
+      "segments": [
+        "Food",
+        "Retail",
+        "Machinery"
+      ],
+      "network_joined": "2021-03-26"
+    },
+    {
+      "id": "Company_076",
+      "name": "Company_076",
+      "industry": "Food",
+      "region": "Shanghai",
+      "segments": [
+        "Fashion",
+        "Aerospace",
+        "Pharmaceuticals"
+      ],
+      "network_joined": "2023-11-17"
+    },
+    {
+      "id": "Company_077",
+      "name": "Company_077",
+      "industry": "Logistics",
+      "region": "Berlin",
+      "segments": [
+        "Retail",
+        "Automotive"
+      ],
+      "network_joined": "2018-06-14"
+    },
+    {
+      "id": "Company_078",
+      "name": "Company_078",
+      "industry": "Food",
+      "region": "London",
+      "segments": [
+        "Fashion",
+        "Logistics"
+      ],
+      "network_joined": "2021-07-05"
+    },
+    {
+      "id": "Company_079",
+      "name": "Company_079",
+      "industry": "Pharmaceuticals",
+      "region": "Paris",
+      "segments": [
+        "Food",
+        "Automotive",
+        "Retail"
+      ],
+      "network_joined": "2020-11-13"
+    },
+    {
+      "id": "Company_080",
+      "name": "Company_080",
+      "industry": "Pharmaceuticals",
+      "region": "Los Angeles",
+      "segments": [
+        "Food"
+      ],
+      "network_joined": "2024-12-22"
+    },
+    {
+      "id": "Company_081",
+      "name": "Company_081",
+      "industry": "Energy",
+      "region": "New York",
+      "segments": [
+        "Aerospace",
+        "Fashion",
+        "Automotive"
+      ],
+      "network_joined": "2021-07-28"
+    },
+    {
+      "id": "Company_082",
+      "name": "Company_082",
+      "industry": "Machinery",
+      "region": "Paris",
+      "segments": [
+        "Aerospace"
+      ],
+      "network_joined": "2018-07-06"
+    },
+    {
+      "id": "Company_083",
+      "name": "Company_083",
+      "industry": "Food",
+      "region": "Tokyo",
+      "segments": [
+        "Energy"
+      ],
+      "network_joined": "2022-05-19"
+    },
+    {
+      "id": "Company_084",
+      "name": "Company_084",
+      "industry": "Electronics",
+      "region": "New York",
+      "segments": [
+        "Aerospace",
+        "Pharmaceuticals",
+        "Machinery"
+      ],
+      "network_joined": "2015-02-15"
+    },
+    {
+      "id": "Company_085",
+      "name": "Company_085",
+      "industry": "Energy",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Food",
+        "Logistics",
+        "Automotive"
+      ],
+      "network_joined": "2019-06-18"
+    },
+    {
+      "id": "Company_086",
+      "name": "Company_086",
+      "industry": "Aerospace",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Retail"
+      ],
+      "network_joined": "2020-05-14"
+    },
+    {
+      "id": "Company_087",
+      "name": "Company_087",
+      "industry": "Machinery",
+      "region": "Paris",
+      "segments": [
+        "Retail"
+      ],
+      "network_joined": "2024-01-14"
+    },
+    {
+      "id": "Company_088",
+      "name": "Company_088",
+      "industry": "Aerospace",
+      "region": "Paris",
+      "segments": [
+        "Machinery",
+        "Fashion"
+      ],
+      "network_joined": "2022-09-24"
+    },
+    {
+      "id": "Company_089",
+      "name": "Company_089",
+      "industry": "Electronics",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Aerospace",
+        "Machinery"
+      ],
+      "network_joined": "2022-03-13"
+    },
+    {
+      "id": "Company_090",
+      "name": "Company_090",
+      "industry": "Logistics",
+      "region": "London",
+      "segments": [
+        "Retail"
+      ],
+      "network_joined": "2019-05-26"
+    },
+    {
+      "id": "Company_091",
+      "name": "Company_091",
+      "industry": "Food",
+      "region": "Mumbai",
+      "segments": [
+        "Fashion"
+      ],
+      "network_joined": "2022-05-21"
+    },
+    {
+      "id": "Company_092",
+      "name": "Company_092",
+      "industry": "Pharmaceuticals",
+      "region": "Berlin",
+      "segments": [
+        "Retail",
+        "Aerospace"
+      ],
+      "network_joined": "2024-07-29"
+    },
+    {
+      "id": "Company_093",
+      "name": "Company_093",
+      "industry": "Logistics",
+      "region": "Paris",
+      "segments": [
+        "Aerospace",
+        "Food"
+      ],
+      "network_joined": "2016-08-22"
+    },
+    {
+      "id": "Company_094",
+      "name": "Company_094",
+      "industry": "Food",
+      "region": "Paris",
+      "segments": [
+        "Machinery",
+        "Energy"
+      ],
+      "network_joined": "2015-05-22"
+    },
+    {
+      "id": "Company_095",
+      "name": "Company_095",
+      "industry": "Aerospace",
+      "region": "Toronto",
+      "segments": [
+        "Food",
+        "Automotive"
+      ],
+      "network_joined": "2023-12-09"
+    },
+    {
+      "id": "Company_096",
+      "name": "Company_096",
+      "industry": "Automotive",
+      "region": "Mumbai",
+      "segments": [
+        "Pharmaceuticals",
+        "Retail",
+        "Fashion"
+      ],
+      "network_joined": "2022-03-29"
+    },
+    {
+      "id": "Company_097",
+      "name": "Company_097",
+      "industry": "Energy",
+      "region": "Toronto",
+      "segments": [
+        "Logistics"
+      ],
+      "network_joined": "2015-01-19"
+    },
+    {
+      "id": "Company_098",
+      "name": "Company_098",
+      "industry": "Energy",
+      "region": "S\u00e3o Paulo",
+      "segments": [
+        "Retail"
+      ],
+      "network_joined": "2017-06-14"
+    },
+    {
+      "id": "Company_099",
+      "name": "Company_099",
+      "industry": "Retail",
+      "region": "New York",
+      "segments": [
+        "Aerospace",
+        "Food",
+        "Automotive"
+      ],
+      "network_joined": "2017-07-25"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Company_000",
+      "target": "Company_032",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-01-08",
+      "strength": 6
+    },
+    {
+      "source": "Company_000",
+      "target": "Company_079",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-12-29",
+      "strength": 7
+    },
+    {
+      "source": "Company_001",
+      "target": "Company_043",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-02-09",
+      "strength": 9
+    },
+    {
+      "source": "Company_001",
+      "target": "Company_055",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-06-23",
+      "strength": 10
+    },
+    {
+      "source": "Company_001",
+      "target": "Company_070",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2015-01-25",
+      "strength": 2
+    },
+    {
+      "source": "Company_002",
+      "target": "Company_008",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-05-02",
+      "strength": 9
+    },
+    {
+      "source": "Company_002",
+      "target": "Company_041",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-12-18",
+      "strength": 7
+    },
+    {
+      "source": "Company_002",
+      "target": "Company_025",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-09-15",
+      "strength": 7
+    },
+    {
+      "source": "Company_002",
+      "target": "Company_030",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-09-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_003",
+      "target": "Company_083",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-01-10",
+      "strength": 2
+    },
+    {
+      "source": "Company_003",
+      "target": "Company_089",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-11-20",
+      "strength": 9
+    },
+    {
+      "source": "Company_003",
+      "target": "Company_005",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-12-25",
+      "strength": 5
+    },
+    {
+      "source": "Company_003",
+      "target": "Company_044",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-01-04",
+      "strength": 5
+    },
+    {
+      "source": "Company_003",
+      "target": "Company_065",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-12-03",
+      "strength": 5
+    },
+    {
+      "source": "Company_004",
+      "target": "Company_092",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-10-22",
+      "strength": 7
+    },
+    {
+      "source": "Company_004",
+      "target": "Company_007",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-10-25",
+      "strength": 1
+    },
+    {
+      "source": "Company_004",
+      "target": "Company_032",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-10-15",
+      "strength": 4
+    },
+    {
+      "source": "Company_005",
+      "target": "Company_091",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-02-15",
+      "strength": 4
+    },
+    {
+      "source": "Company_005",
+      "target": "Company_094",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-04-30",
+      "strength": 7
+    },
+    {
+      "source": "Company_005",
+      "target": "Company_062",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-02-05",
+      "strength": 6
+    },
+    {
+      "source": "Company_005",
+      "target": "Company_003",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-12-25",
+      "strength": 5
+    },
+    {
+      "source": "Company_005",
+      "target": "Company_055",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-12-04",
+      "strength": 9
+    },
+    {
+      "source": "Company_005",
+      "target": "Company_067",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2022-12-22",
+      "strength": 1
+    },
+    {
+      "source": "Company_005",
+      "target": "Company_038",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-12-20",
+      "strength": 8
+    },
+    {
+      "source": "Company_006",
+      "target": "Company_016",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-05-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_007",
+      "target": "Company_047",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-12-03",
+      "strength": 3
+    },
+    {
+      "source": "Company_007",
+      "target": "Company_065",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2023-05-11",
+      "strength": 3
+    },
+    {
+      "source": "Company_008",
+      "target": "Company_058",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-02-14",
+      "strength": 8
+    },
+    {
+      "source": "Company_008",
+      "target": "Company_038",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2016-10-21",
+      "strength": 3
+    },
+    {
+      "source": "Company_008",
+      "target": "Company_002",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-05-02",
+      "strength": 9
+    },
+    {
+      "source": "Company_008",
+      "target": "Company_006",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-05-02",
+      "strength": 4
+    },
+    {
+      "source": "Company_008",
+      "target": "Company_009",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-02-13",
+      "strength": 10
+    },
+    {
+      "source": "Company_008",
+      "target": "Company_096",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-01-09",
+      "strength": 6
+    },
+    {
+      "source": "Company_009",
+      "target": "Company_063",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2019-05-25",
+      "strength": 2
+    },
+    {
+      "source": "Company_009",
+      "target": "Company_008",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-02-13",
+      "strength": 10
+    },
+    {
+      "source": "Company_009",
+      "target": "Company_074",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-06-29",
+      "strength": 6
+    },
+    {
+      "source": "Company_010",
+      "target": "Company_076",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-08-26",
+      "strength": 5
+    },
+    {
+      "source": "Company_010",
+      "target": "Company_005",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2020-02-07",
+      "strength": 4
+    },
+    {
+      "source": "Company_010",
+      "target": "Company_060",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-07-31",
+      "strength": 6
+    },
+    {
+      "source": "Company_011",
+      "target": "Company_022",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-08-23",
+      "strength": 5
+    },
+    {
+      "source": "Company_011",
+      "target": "Company_014",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2017-03-29",
+      "strength": 3
+    },
+    {
+      "source": "Company_011",
+      "target": "Company_055",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-11-01",
+      "strength": 6
+    },
+    {
+      "source": "Company_011",
+      "target": "Company_097",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-09-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_011",
+      "target": "Company_017",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-10-17",
+      "strength": 9
+    },
+    {
+      "source": "Company_011",
+      "target": "Company_043",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-11-06",
+      "strength": 5
+    },
+    {
+      "source": "Company_012",
+      "target": "Company_062",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-06-25",
+      "strength": 8
+    },
+    {
+      "source": "Company_012",
+      "target": "Company_089",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-11-13",
+      "strength": 6
+    },
+    {
+      "source": "Company_012",
+      "target": "Company_046",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-06-01",
+      "strength": 3
+    },
+    {
+      "source": "Company_012",
+      "target": "Company_049",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-10-10",
+      "strength": 8
+    },
+    {
+      "source": "Company_012",
+      "target": "Company_063",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-08-30",
+      "strength": 1
+    },
+    {
+      "source": "Company_013",
+      "target": "Company_033",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-09-18",
+      "strength": 8
+    },
+    {
+      "source": "Company_013",
+      "target": "Company_080",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-08-25",
+      "strength": 8
+    },
+    {
+      "source": "Company_014",
+      "target": "Company_030",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-07-28",
+      "strength": 6
+    },
+    {
+      "source": "Company_014",
+      "target": "Company_048",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2017-09-13",
+      "strength": 4
+    },
+    {
+      "source": "Company_014",
+      "target": "Company_080",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2021-07-18",
+      "strength": 2
+    },
+    {
+      "source": "Company_015",
+      "target": "Company_021",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2017-11-01",
+      "strength": 2
+    },
+    {
+      "source": "Company_015",
+      "target": "Company_064",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-03-19",
+      "strength": 3
+    },
+    {
+      "source": "Company_015",
+      "target": "Company_089",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-06-29",
+      "strength": 3
+    },
+    {
+      "source": "Company_015",
+      "target": "Company_092",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2016-12-12",
+      "strength": 5
+    },
+    {
+      "source": "Company_016",
+      "target": "Company_075",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-07-14",
+      "strength": 4
+    },
+    {
+      "source": "Company_016",
+      "target": "Company_074",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-11-29",
+      "strength": 6
+    },
+    {
+      "source": "Company_016",
+      "target": "Company_006",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-05-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_016",
+      "target": "Company_071",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-04-22",
+      "strength": 3
+    },
+    {
+      "source": "Company_016",
+      "target": "Company_082",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-04-05",
+      "strength": 9
+    },
+    {
+      "source": "Company_016",
+      "target": "Company_093",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-02-13",
+      "strength": 1
+    },
+    {
+      "source": "Company_016",
+      "target": "Company_086",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2020-08-04",
+      "strength": 3
+    },
+    {
+      "source": "Company_017",
+      "target": "Company_090",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-09-26",
+      "strength": 3
+    },
+    {
+      "source": "Company_017",
+      "target": "Company_037",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-01-12",
+      "strength": 7
+    },
+    {
+      "source": "Company_017",
+      "target": "Company_019",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-01-04",
+      "strength": 2
+    },
+    {
+      "source": "Company_017",
+      "target": "Company_052",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-11-27",
+      "strength": 6
+    },
+    {
+      "source": "Company_017",
+      "target": "Company_011",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-10-17",
+      "strength": 9
+    },
+    {
+      "source": "Company_017",
+      "target": "Company_094",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2022-12-07",
+      "strength": 2
+    },
+    {
+      "source": "Company_017",
+      "target": "Company_092",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-04-24",
+      "strength": 7
+    },
+    {
+      "source": "Company_018",
+      "target": "Company_020",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-02-17",
+      "strength": 10
+    },
+    {
+      "source": "Company_018",
+      "target": "Company_056",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2021-11-15",
+      "strength": 5
+    },
+    {
+      "source": "Company_019",
+      "target": "Company_035",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-04-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_019",
+      "target": "Company_062",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-02-25",
+      "strength": 5
+    },
+    {
+      "source": "Company_019",
+      "target": "Company_099",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-05-08",
+      "strength": 5
+    },
+    {
+      "source": "Company_019",
+      "target": "Company_087",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-06-05",
+      "strength": 7
+    },
+    {
+      "source": "Company_020",
+      "target": "Company_013",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-12-17",
+      "strength": 2
+    },
+    {
+      "source": "Company_020",
+      "target": "Company_065",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-02-21",
+      "strength": 4
+    },
+    {
+      "source": "Company_020",
+      "target": "Company_018",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-02-17",
+      "strength": 10
+    },
+    {
+      "source": "Company_020",
+      "target": "Company_097",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-12-20",
+      "strength": 3
+    },
+    {
+      "source": "Company_020",
+      "target": "Company_048",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2024-01-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_021",
+      "target": "Company_061",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-09-19",
+      "strength": 3
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_011",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-08-23",
+      "strength": 5
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_052",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-12-01",
+      "strength": 5
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_020",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2019-06-18",
+      "strength": 1
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_006",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2022-03-28",
+      "strength": 4
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_038",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-08-18",
+      "strength": 10
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_058",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-09-22",
+      "strength": 9
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_062",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-09-06",
+      "strength": 8
+    },
+    {
+      "source": "Company_022",
+      "target": "Company_046",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-10-13",
+      "strength": 10
+    },
+    {
+      "source": "Company_023",
+      "target": "Company_056",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-03-21",
+      "strength": 5
+    },
+    {
+      "source": "Company_023",
+      "target": "Company_035",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-12-11",
+      "strength": 2
+    },
+    {
+      "source": "Company_023",
+      "target": "Company_055",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-10-02",
+      "strength": 9
+    },
+    {
+      "source": "Company_023",
+      "target": "Company_084",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-11-30",
+      "strength": 10
+    },
+    {
+      "source": "Company_023",
+      "target": "Company_006",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-07-25",
+      "strength": 6
+    },
+    {
+      "source": "Company_024",
+      "target": "Company_045",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-05-09",
+      "strength": 3
+    },
+    {
+      "source": "Company_024",
+      "target": "Company_061",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2019-09-06",
+      "strength": 6
+    },
+    {
+      "source": "Company_024",
+      "target": "Company_080",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-12-21",
+      "strength": 5
+    },
+    {
+      "source": "Company_024",
+      "target": "Company_049",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-10-12",
+      "strength": 7
+    },
+    {
+      "source": "Company_025",
+      "target": "Company_031",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-11-30",
+      "strength": 9
+    },
+    {
+      "source": "Company_025",
+      "target": "Company_041",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-06-12",
+      "strength": 1
+    },
+    {
+      "source": "Company_025",
+      "target": "Company_032",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2024-10-31",
+      "strength": 8
+    },
+    {
+      "source": "Company_025",
+      "target": "Company_002",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-09-15",
+      "strength": 7
+    },
+    {
+      "source": "Company_026",
+      "target": "Company_065",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-02-12",
+      "strength": 1
+    },
+    {
+      "source": "Company_027",
+      "target": "Company_093",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-03-16",
+      "strength": 9
+    },
+    {
+      "source": "Company_027",
+      "target": "Company_045",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2024-07-26",
+      "strength": 4
+    },
+    {
+      "source": "Company_028",
+      "target": "Company_083",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2020-09-04",
+      "strength": 3
+    },
+    {
+      "source": "Company_028",
+      "target": "Company_078",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-07-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_028",
+      "target": "Company_016",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2020-08-09",
+      "strength": 1
+    },
+    {
+      "source": "Company_029",
+      "target": "Company_065",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-03-09",
+      "strength": 8
+    },
+    {
+      "source": "Company_029",
+      "target": "Company_054",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-11-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_029",
+      "target": "Company_079",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-05-06",
+      "strength": 9
+    },
+    {
+      "source": "Company_029",
+      "target": "Company_085",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-09-18",
+      "strength": 5
+    },
+    {
+      "source": "Company_030",
+      "target": "Company_077",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-07-01",
+      "strength": 3
+    },
+    {
+      "source": "Company_030",
+      "target": "Company_014",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-07-28",
+      "strength": 6
+    },
+    {
+      "source": "Company_030",
+      "target": "Company_035",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-03-02",
+      "strength": 6
+    },
+    {
+      "source": "Company_030",
+      "target": "Company_002",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-09-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_030",
+      "target": "Company_085",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-04-07",
+      "strength": 7
+    },
+    {
+      "source": "Company_031",
+      "target": "Company_074",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-11-20",
+      "strength": 8
+    },
+    {
+      "source": "Company_031",
+      "target": "Company_079",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2016-02-04",
+      "strength": 5
+    },
+    {
+      "source": "Company_031",
+      "target": "Company_025",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-11-30",
+      "strength": 9
+    },
+    {
+      "source": "Company_031",
+      "target": "Company_035",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-10-08",
+      "strength": 6
+    },
+    {
+      "source": "Company_031",
+      "target": "Company_036",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-12-27",
+      "strength": 9
+    },
+    {
+      "source": "Company_031",
+      "target": "Company_057",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2018-10-04",
+      "strength": 7
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_008",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2021-06-08",
+      "strength": 1
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_071",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-12-08",
+      "strength": 6
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_097",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-01-19",
+      "strength": 9
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_045",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-11-02",
+      "strength": 6
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_040",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-11-06",
+      "strength": 10
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_070",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2020-05-25",
+      "strength": 1
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_055",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-09-01",
+      "strength": 6
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_004",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-10-15",
+      "strength": 4
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_025",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2024-10-31",
+      "strength": 8
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_000",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-01-08",
+      "strength": 6
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_017",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-03-19",
+      "strength": 4
+    },
+    {
+      "source": "Company_032",
+      "target": "Company_024",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2018-10-19",
+      "strength": 3
+    },
+    {
+      "source": "Company_033",
+      "target": "Company_050",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-06-19",
+      "strength": 8
+    },
+    {
+      "source": "Company_033",
+      "target": "Company_060",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2020-04-05",
+      "strength": 3
+    },
+    {
+      "source": "Company_033",
+      "target": "Company_013",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-09-18",
+      "strength": 8
+    },
+    {
+      "source": "Company_033",
+      "target": "Company_043",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-12-25",
+      "strength": 6
+    },
+    {
+      "source": "Company_033",
+      "target": "Company_075",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-12-14",
+      "strength": 3
+    },
+    {
+      "source": "Company_033",
+      "target": "Company_056",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2024-05-26",
+      "strength": 8
+    },
+    {
+      "source": "Company_033",
+      "target": "Company_061",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2024-10-16",
+      "strength": 9
+    },
+    {
+      "source": "Company_034",
+      "target": "Company_049",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-01-25",
+      "strength": 10
+    },
+    {
+      "source": "Company_034",
+      "target": "Company_038",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-04-27",
+      "strength": 3
+    },
+    {
+      "source": "Company_035",
+      "target": "Company_019",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-04-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_035",
+      "target": "Company_010",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2018-06-03",
+      "strength": 1
+    },
+    {
+      "source": "Company_035",
+      "target": "Company_083",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-02-06",
+      "strength": 7
+    },
+    {
+      "source": "Company_035",
+      "target": "Company_030",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-03-02",
+      "strength": 6
+    },
+    {
+      "source": "Company_035",
+      "target": "Company_093",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2022-02-22",
+      "strength": 3
+    },
+    {
+      "source": "Company_036",
+      "target": "Company_011",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2021-03-18",
+      "strength": 3
+    },
+    {
+      "source": "Company_036",
+      "target": "Company_031",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-12-27",
+      "strength": 9
+    },
+    {
+      "source": "Company_037",
+      "target": "Company_017",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-01-12",
+      "strength": 7
+    },
+    {
+      "source": "Company_037",
+      "target": "Company_071",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-07-10",
+      "strength": 8
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_066",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2017-03-19",
+      "strength": 1
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_078",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-11-11",
+      "strength": 5
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_099",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-04-22",
+      "strength": 5
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_034",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-04-27",
+      "strength": 3
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_070",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-04-04",
+      "strength": 6
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_044",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-06-25",
+      "strength": 9
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_022",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-08-18",
+      "strength": 10
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_017",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2022-07-10",
+      "strength": 5
+    },
+    {
+      "source": "Company_038",
+      "target": "Company_005",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-12-20",
+      "strength": 8
+    },
+    {
+      "source": "Company_039",
+      "target": "Company_078",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-04-13",
+      "strength": 8
+    },
+    {
+      "source": "Company_039",
+      "target": "Company_060",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2020-07-30",
+      "strength": 5
+    },
+    {
+      "source": "Company_039",
+      "target": "Company_033",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-02-17",
+      "strength": 3
+    },
+    {
+      "source": "Company_039",
+      "target": "Company_016",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2015-07-31",
+      "strength": 4
+    },
+    {
+      "source": "Company_039",
+      "target": "Company_079",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-07-28",
+      "strength": 5
+    },
+    {
+      "source": "Company_039",
+      "target": "Company_075",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-02-03",
+      "strength": 9
+    },
+    {
+      "source": "Company_040",
+      "target": "Company_049",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-05-29",
+      "strength": 8
+    },
+    {
+      "source": "Company_040",
+      "target": "Company_032",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-11-06",
+      "strength": 10
+    },
+    {
+      "source": "Company_041",
+      "target": "Company_092",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-12-12",
+      "strength": 7
+    },
+    {
+      "source": "Company_041",
+      "target": "Company_002",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-12-18",
+      "strength": 7
+    },
+    {
+      "source": "Company_041",
+      "target": "Company_085",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-04-30",
+      "strength": 9
+    },
+    {
+      "source": "Company_042",
+      "target": "Company_085",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-11-05",
+      "strength": 6
+    },
+    {
+      "source": "Company_042",
+      "target": "Company_098",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-05-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_043",
+      "target": "Company_033",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-12-25",
+      "strength": 6
+    },
+    {
+      "source": "Company_043",
+      "target": "Company_046",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-01-11",
+      "strength": 2
+    },
+    {
+      "source": "Company_043",
+      "target": "Company_099",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-12-22",
+      "strength": 4
+    },
+    {
+      "source": "Company_043",
+      "target": "Company_001",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-02-09",
+      "strength": 9
+    },
+    {
+      "source": "Company_043",
+      "target": "Company_011",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-11-06",
+      "strength": 5
+    },
+    {
+      "source": "Company_044",
+      "target": "Company_003",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-01-04",
+      "strength": 5
+    },
+    {
+      "source": "Company_044",
+      "target": "Company_038",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-06-25",
+      "strength": 9
+    },
+    {
+      "source": "Company_044",
+      "target": "Company_071",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-12-29",
+      "strength": 9
+    },
+    {
+      "source": "Company_044",
+      "target": "Company_015",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2019-08-21",
+      "strength": 6
+    },
+    {
+      "source": "Company_044",
+      "target": "Company_062",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-04-15",
+      "strength": 9
+    },
+    {
+      "source": "Company_045",
+      "target": "Company_024",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-05-09",
+      "strength": 3
+    },
+    {
+      "source": "Company_045",
+      "target": "Company_081",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-11-23",
+      "strength": 9
+    },
+    {
+      "source": "Company_045",
+      "target": "Company_032",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-11-02",
+      "strength": 6
+    },
+    {
+      "source": "Company_045",
+      "target": "Company_070",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-01-08",
+      "strength": 7
+    },
+    {
+      "source": "Company_045",
+      "target": "Company_044",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2015-10-31",
+      "strength": 2
+    },
+    {
+      "source": "Company_045",
+      "target": "Company_048",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-05-14",
+      "strength": 10
+    },
+    {
+      "source": "Company_046",
+      "target": "Company_081",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2017-12-30",
+      "strength": 5
+    },
+    {
+      "source": "Company_046",
+      "target": "Company_012",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-06-01",
+      "strength": 3
+    },
+    {
+      "source": "Company_046",
+      "target": "Company_022",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-10-13",
+      "strength": 10
+    },
+    {
+      "source": "Company_047",
+      "target": "Company_094",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-08-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_047",
+      "target": "Company_007",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-12-03",
+      "strength": 3
+    },
+    {
+      "source": "Company_047",
+      "target": "Company_065",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-09-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_048",
+      "target": "Company_092",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-11-26",
+      "strength": 4
+    },
+    {
+      "source": "Company_048",
+      "target": "Company_021",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2016-01-26",
+      "strength": 1
+    },
+    {
+      "source": "Company_048",
+      "target": "Company_060",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-02-20",
+      "strength": 7
+    },
+    {
+      "source": "Company_048",
+      "target": "Company_020",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2024-01-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_048",
+      "target": "Company_072",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2024-08-22",
+      "strength": 7
+    },
+    {
+      "source": "Company_048",
+      "target": "Company_045",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-05-14",
+      "strength": 10
+    },
+    {
+      "source": "Company_049",
+      "target": "Company_058",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-11-19",
+      "strength": 5
+    },
+    {
+      "source": "Company_049",
+      "target": "Company_040",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-05-29",
+      "strength": 8
+    },
+    {
+      "source": "Company_049",
+      "target": "Company_034",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-01-25",
+      "strength": 10
+    },
+    {
+      "source": "Company_049",
+      "target": "Company_004",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-08-15",
+      "strength": 5
+    },
+    {
+      "source": "Company_049",
+      "target": "Company_012",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-10-10",
+      "strength": 8
+    },
+    {
+      "source": "Company_049",
+      "target": "Company_088",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-07-23",
+      "strength": 3
+    },
+    {
+      "source": "Company_049",
+      "target": "Company_096",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-09-18",
+      "strength": 2
+    },
+    {
+      "source": "Company_050",
+      "target": "Company_033",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-06-19",
+      "strength": 8
+    },
+    {
+      "source": "Company_051",
+      "target": "Company_094",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-10-05",
+      "strength": 4
+    },
+    {
+      "source": "Company_051",
+      "target": "Company_077",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-04-03",
+      "strength": 6
+    },
+    {
+      "source": "Company_051",
+      "target": "Company_010",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2015-01-13",
+      "strength": 5
+    },
+    {
+      "source": "Company_051",
+      "target": "Company_029",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2018-08-15",
+      "strength": 2
+    },
+    {
+      "source": "Company_052",
+      "target": "Company_053",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-08-16",
+      "strength": 5
+    },
+    {
+      "source": "Company_052",
+      "target": "Company_039",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2024-02-23",
+      "strength": 5
+    },
+    {
+      "source": "Company_052",
+      "target": "Company_017",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-11-27",
+      "strength": 6
+    },
+    {
+      "source": "Company_052",
+      "target": "Company_093",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2024-09-01",
+      "strength": 5
+    },
+    {
+      "source": "Company_052",
+      "target": "Company_050",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-11-14",
+      "strength": 5
+    },
+    {
+      "source": "Company_053",
+      "target": "Company_076",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-11-16",
+      "strength": 4
+    },
+    {
+      "source": "Company_053",
+      "target": "Company_070",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2021-04-28",
+      "strength": 1
+    },
+    {
+      "source": "Company_053",
+      "target": "Company_052",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-08-16",
+      "strength": 5
+    },
+    {
+      "source": "Company_053",
+      "target": "Company_059",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-08-15",
+      "strength": 6
+    },
+    {
+      "source": "Company_054",
+      "target": "Company_029",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-11-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_054",
+      "target": "Company_003",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-03-16",
+      "strength": 1
+    },
+    {
+      "source": "Company_054",
+      "target": "Company_080",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2016-09-21",
+      "strength": 7
+    },
+    {
+      "source": "Company_054",
+      "target": "Company_063",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-12-04",
+      "strength": 7
+    },
+    {
+      "source": "Company_054",
+      "target": "Company_078",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2021-05-27",
+      "strength": 5
+    },
+    {
+      "source": "Company_055",
+      "target": "Company_011",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-11-01",
+      "strength": 6
+    },
+    {
+      "source": "Company_055",
+      "target": "Company_005",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-12-04",
+      "strength": 9
+    },
+    {
+      "source": "Company_055",
+      "target": "Company_023",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-10-02",
+      "strength": 9
+    },
+    {
+      "source": "Company_055",
+      "target": "Company_001",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-06-23",
+      "strength": 10
+    },
+    {
+      "source": "Company_055",
+      "target": "Company_053",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2023-03-29",
+      "strength": 1
+    },
+    {
+      "source": "Company_056",
+      "target": "Company_023",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-03-21",
+      "strength": 5
+    },
+    {
+      "source": "Company_056",
+      "target": "Company_084",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-08-29",
+      "strength": 6
+    },
+    {
+      "source": "Company_056",
+      "target": "Company_033",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2024-05-26",
+      "strength": 8
+    },
+    {
+      "source": "Company_057",
+      "target": "Company_001",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2018-01-23",
+      "strength": 5
+    },
+    {
+      "source": "Company_057",
+      "target": "Company_071",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2023-09-28",
+      "strength": 1
+    },
+    {
+      "source": "Company_057",
+      "target": "Company_066",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-02-27",
+      "strength": 9
+    },
+    {
+      "source": "Company_057",
+      "target": "Company_009",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-12-09",
+      "strength": 1
+    },
+    {
+      "source": "Company_058",
+      "target": "Company_042",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-02-11",
+      "strength": 1
+    },
+    {
+      "source": "Company_058",
+      "target": "Company_049",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-11-19",
+      "strength": 5
+    },
+    {
+      "source": "Company_058",
+      "target": "Company_041",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-03-19",
+      "strength": 7
+    },
+    {
+      "source": "Company_058",
+      "target": "Company_008",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-02-14",
+      "strength": 8
+    },
+    {
+      "source": "Company_058",
+      "target": "Company_043",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-07-31",
+      "strength": 7
+    },
+    {
+      "source": "Company_058",
+      "target": "Company_022",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-09-22",
+      "strength": 9
+    },
+    {
+      "source": "Company_059",
+      "target": "Company_083",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-01-15",
+      "strength": 7
+    },
+    {
+      "source": "Company_059",
+      "target": "Company_053",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-08-15",
+      "strength": 6
+    },
+    {
+      "source": "Company_059",
+      "target": "Company_027",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2017-05-27",
+      "strength": 4
+    },
+    {
+      "source": "Company_060",
+      "target": "Company_041",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2024-02-28",
+      "strength": 5
+    },
+    {
+      "source": "Company_060",
+      "target": "Company_030",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2017-12-14",
+      "strength": 3
+    },
+    {
+      "source": "Company_060",
+      "target": "Company_001",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-07-06",
+      "strength": 3
+    },
+    {
+      "source": "Company_060",
+      "target": "Company_010",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-07-31",
+      "strength": 6
+    },
+    {
+      "source": "Company_061",
+      "target": "Company_034",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2020-11-16",
+      "strength": 4
+    },
+    {
+      "source": "Company_061",
+      "target": "Company_089",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-02-10",
+      "strength": 5
+    },
+    {
+      "source": "Company_061",
+      "target": "Company_067",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2019-09-04",
+      "strength": 3
+    },
+    {
+      "source": "Company_061",
+      "target": "Company_094",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-02-26",
+      "strength": 4
+    },
+    {
+      "source": "Company_061",
+      "target": "Company_033",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2024-10-16",
+      "strength": 9
+    },
+    {
+      "source": "Company_062",
+      "target": "Company_012",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-06-25",
+      "strength": 8
+    },
+    {
+      "source": "Company_062",
+      "target": "Company_085",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-10-25",
+      "strength": 2
+    },
+    {
+      "source": "Company_062",
+      "target": "Company_005",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-02-05",
+      "strength": 6
+    },
+    {
+      "source": "Company_062",
+      "target": "Company_019",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-02-25",
+      "strength": 5
+    },
+    {
+      "source": "Company_062",
+      "target": "Company_022",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-09-06",
+      "strength": 8
+    },
+    {
+      "source": "Company_062",
+      "target": "Company_044",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-04-15",
+      "strength": 9
+    },
+    {
+      "source": "Company_063",
+      "target": "Company_015",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2024-04-26",
+      "strength": 5
+    },
+    {
+      "source": "Company_063",
+      "target": "Company_054",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-12-04",
+      "strength": 7
+    },
+    {
+      "source": "Company_064",
+      "target": "Company_061",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2018-04-27",
+      "strength": 1
+    },
+    {
+      "source": "Company_064",
+      "target": "Company_015",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-03-19",
+      "strength": 3
+    },
+    {
+      "source": "Company_064",
+      "target": "Company_069",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2016-05-07",
+      "strength": 5
+    },
+    {
+      "source": "Company_064",
+      "target": "Company_084",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-04-14",
+      "strength": 2
+    },
+    {
+      "source": "Company_064",
+      "target": "Company_067",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-06-06",
+      "strength": 3
+    },
+    {
+      "source": "Company_065",
+      "target": "Company_020",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-02-21",
+      "strength": 4
+    },
+    {
+      "source": "Company_065",
+      "target": "Company_029",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-03-09",
+      "strength": 8
+    },
+    {
+      "source": "Company_065",
+      "target": "Company_067",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-06-01",
+      "strength": 3
+    },
+    {
+      "source": "Company_065",
+      "target": "Company_083",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-07-04",
+      "strength": 5
+    },
+    {
+      "source": "Company_065",
+      "target": "Company_082",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-12-25",
+      "strength": 3
+    },
+    {
+      "source": "Company_065",
+      "target": "Company_047",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-09-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_066",
+      "target": "Company_030",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-08-26",
+      "strength": 4
+    },
+    {
+      "source": "Company_066",
+      "target": "Company_049",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2019-10-06",
+      "strength": 2
+    },
+    {
+      "source": "Company_066",
+      "target": "Company_057",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-02-27",
+      "strength": 9
+    },
+    {
+      "source": "Company_067",
+      "target": "Company_090",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2018-01-20",
+      "strength": 5
+    },
+    {
+      "source": "Company_067",
+      "target": "Company_065",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-06-01",
+      "strength": 3
+    },
+    {
+      "source": "Company_067",
+      "target": "Company_064",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-06-06",
+      "strength": 3
+    },
+    {
+      "source": "Company_067",
+      "target": "Company_080",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-11-25",
+      "strength": 5
+    },
+    {
+      "source": "Company_068",
+      "target": "Company_058",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-01-25",
+      "strength": 5
+    },
+    {
+      "source": "Company_069",
+      "target": "Company_018",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2018-05-08",
+      "strength": 2
+    },
+    {
+      "source": "Company_069",
+      "target": "Company_083",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-09-26",
+      "strength": 7
+    },
+    {
+      "source": "Company_069",
+      "target": "Company_058",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-10-24",
+      "strength": 1
+    },
+    {
+      "source": "Company_069",
+      "target": "Company_091",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2021-05-24",
+      "strength": 1
+    },
+    {
+      "source": "Company_069",
+      "target": "Company_057",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2018-10-27",
+      "strength": 5
+    },
+    {
+      "source": "Company_069",
+      "target": "Company_088",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-01-10",
+      "strength": 3
+    },
+    {
+      "source": "Company_070",
+      "target": "Company_038",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-04-04",
+      "strength": 6
+    },
+    {
+      "source": "Company_070",
+      "target": "Company_045",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-01-08",
+      "strength": 7
+    },
+    {
+      "source": "Company_070",
+      "target": "Company_096",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-05-17",
+      "strength": 7
+    },
+    {
+      "source": "Company_071",
+      "target": "Company_036",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-06-15",
+      "strength": 6
+    },
+    {
+      "source": "Company_071",
+      "target": "Company_016",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2018-03-25",
+      "strength": 3
+    },
+    {
+      "source": "Company_071",
+      "target": "Company_037",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-07-10",
+      "strength": 8
+    },
+    {
+      "source": "Company_071",
+      "target": "Company_050",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-03-03",
+      "strength": 5
+    },
+    {
+      "source": "Company_071",
+      "target": "Company_044",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-12-29",
+      "strength": 9
+    },
+    {
+      "source": "Company_072",
+      "target": "Company_098",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2021-11-18",
+      "strength": 3
+    },
+    {
+      "source": "Company_072",
+      "target": "Company_054",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-09-01",
+      "strength": 1
+    },
+    {
+      "source": "Company_072",
+      "target": "Company_099",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-03-05",
+      "strength": 8
+    },
+    {
+      "source": "Company_072",
+      "target": "Company_048",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2024-08-22",
+      "strength": 7
+    },
+    {
+      "source": "Company_072",
+      "target": "Company_077",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2021-06-12",
+      "strength": 3
+    },
+    {
+      "source": "Company_073",
+      "target": "Company_094",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-11-12",
+      "strength": 10
+    },
+    {
+      "source": "Company_073",
+      "target": "Company_060",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2021-03-29",
+      "strength": 2
+    },
+    {
+      "source": "Company_073",
+      "target": "Company_089",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-09-29",
+      "strength": 7
+    },
+    {
+      "source": "Company_073",
+      "target": "Company_090",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-06-08",
+      "strength": 2
+    },
+    {
+      "source": "Company_073",
+      "target": "Company_083",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-04-09",
+      "strength": 2
+    },
+    {
+      "source": "Company_074",
+      "target": "Company_016",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-11-29",
+      "strength": 6
+    },
+    {
+      "source": "Company_074",
+      "target": "Company_031",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-11-20",
+      "strength": 8
+    },
+    {
+      "source": "Company_074",
+      "target": "Company_009",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-06-29",
+      "strength": 6
+    },
+    {
+      "source": "Company_075",
+      "target": "Company_060",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-11-04",
+      "strength": 1
+    },
+    {
+      "source": "Company_075",
+      "target": "Company_033",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-12-14",
+      "strength": 3
+    },
+    {
+      "source": "Company_075",
+      "target": "Company_049",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2024-01-23",
+      "strength": 1
+    },
+    {
+      "source": "Company_075",
+      "target": "Company_039",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-02-03",
+      "strength": 9
+    },
+    {
+      "source": "Company_076",
+      "target": "Company_053",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-11-16",
+      "strength": 4
+    },
+    {
+      "source": "Company_076",
+      "target": "Company_081",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-05-05",
+      "strength": 9
+    },
+    {
+      "source": "Company_076",
+      "target": "Company_010",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2018-08-26",
+      "strength": 5
+    },
+    {
+      "source": "Company_076",
+      "target": "Company_096",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-03-08",
+      "strength": 3
+    },
+    {
+      "source": "Company_077",
+      "target": "Company_093",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-06-29",
+      "strength": 8
+    },
+    {
+      "source": "Company_077",
+      "target": "Company_005",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-12-28",
+      "strength": 3
+    },
+    {
+      "source": "Company_077",
+      "target": "Company_065",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-02-13",
+      "strength": 7
+    },
+    {
+      "source": "Company_077",
+      "target": "Company_067",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-11-03",
+      "strength": 3
+    },
+    {
+      "source": "Company_077",
+      "target": "Company_051",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2021-04-03",
+      "strength": 6
+    },
+    {
+      "source": "Company_077",
+      "target": "Company_038",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2021-12-01",
+      "strength": 5
+    },
+    {
+      "source": "Company_078",
+      "target": "Company_039",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-04-13",
+      "strength": 8
+    },
+    {
+      "source": "Company_078",
+      "target": "Company_038",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2019-11-11",
+      "strength": 5
+    },
+    {
+      "source": "Company_078",
+      "target": "Company_051",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-02-21",
+      "strength": 2
+    },
+    {
+      "source": "Company_078",
+      "target": "Company_028",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-07-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_078",
+      "target": "Company_042",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2021-12-24",
+      "strength": 1
+    },
+    {
+      "source": "Company_079",
+      "target": "Company_015",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-03-14",
+      "strength": 3
+    },
+    {
+      "source": "Company_079",
+      "target": "Company_077",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2018-03-18",
+      "strength": 3
+    },
+    {
+      "source": "Company_079",
+      "target": "Company_029",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-05-06",
+      "strength": 9
+    },
+    {
+      "source": "Company_079",
+      "target": "Company_000",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2020-08-05",
+      "strength": 3
+    },
+    {
+      "source": "Company_079",
+      "target": "Company_036",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2020-01-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_079",
+      "target": "Company_039",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-07-28",
+      "strength": 5
+    },
+    {
+      "source": "Company_080",
+      "target": "Company_000",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-03-07",
+      "strength": 5
+    },
+    {
+      "source": "Company_080",
+      "target": "Company_079",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-09-04",
+      "strength": 2
+    },
+    {
+      "source": "Company_080",
+      "target": "Company_013",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-08-25",
+      "strength": 8
+    },
+    {
+      "source": "Company_080",
+      "target": "Company_024",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-12-21",
+      "strength": 5
+    },
+    {
+      "source": "Company_080",
+      "target": "Company_067",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-11-25",
+      "strength": 5
+    },
+    {
+      "source": "Company_081",
+      "target": "Company_076",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-05-05",
+      "strength": 9
+    },
+    {
+      "source": "Company_081",
+      "target": "Company_045",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-11-23",
+      "strength": 9
+    },
+    {
+      "source": "Company_081",
+      "target": "Company_072",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2017-06-21",
+      "strength": 4
+    },
+    {
+      "source": "Company_081",
+      "target": "Company_051",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-07-15",
+      "strength": 3
+    },
+    {
+      "source": "Company_082",
+      "target": "Company_093",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2017-06-29",
+      "strength": 1
+    },
+    {
+      "source": "Company_082",
+      "target": "Company_088",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-06-22",
+      "strength": 7
+    },
+    {
+      "source": "Company_082",
+      "target": "Company_016",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2017-04-05",
+      "strength": 9
+    },
+    {
+      "source": "Company_082",
+      "target": "Company_065",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-12-25",
+      "strength": 3
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_022",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2021-08-09",
+      "strength": 1
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_032",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2023-03-17",
+      "strength": 2
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_059",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-01-15",
+      "strength": 7
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_069",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-09-26",
+      "strength": 7
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_035",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-02-06",
+      "strength": 7
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_065",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-07-04",
+      "strength": 5
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_025",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-09-15",
+      "strength": 3
+    },
+    {
+      "source": "Company_083",
+      "target": "Company_058",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-09-26",
+      "strength": 4
+    },
+    {
+      "source": "Company_084",
+      "target": "Company_090",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-06-19",
+      "strength": 9
+    },
+    {
+      "source": "Company_084",
+      "target": "Company_072",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2017-03-14",
+      "strength": 1
+    },
+    {
+      "source": "Company_084",
+      "target": "Company_061",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2020-05-15",
+      "strength": 2
+    },
+    {
+      "source": "Company_084",
+      "target": "Company_023",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2020-11-30",
+      "strength": 10
+    },
+    {
+      "source": "Company_085",
+      "target": "Company_084",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2022-06-24",
+      "strength": 1
+    },
+    {
+      "source": "Company_085",
+      "target": "Company_006",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-03-18",
+      "strength": 6
+    },
+    {
+      "source": "Company_085",
+      "target": "Company_037",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-03-02",
+      "strength": 4
+    },
+    {
+      "source": "Company_085",
+      "target": "Company_042",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-11-05",
+      "strength": 6
+    },
+    {
+      "source": "Company_085",
+      "target": "Company_041",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-04-30",
+      "strength": 9
+    },
+    {
+      "source": "Company_085",
+      "target": "Company_030",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2019-04-07",
+      "strength": 7
+    },
+    {
+      "source": "Company_085",
+      "target": "Company_029",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2015-09-18",
+      "strength": 5
+    },
+    {
+      "source": "Company_086",
+      "target": "Company_002",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-05-29",
+      "strength": 3
+    },
+    {
+      "source": "Company_086",
+      "target": "Company_079",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2017-02-20",
+      "strength": 5
+    },
+    {
+      "source": "Company_086",
+      "target": "Company_041",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-08-02",
+      "strength": 6
+    },
+    {
+      "source": "Company_087",
+      "target": "Company_043",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2023-02-18",
+      "strength": 5
+    },
+    {
+      "source": "Company_087",
+      "target": "Company_019",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2020-06-05",
+      "strength": 7
+    },
+    {
+      "source": "Company_088",
+      "target": "Company_080",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-03-21",
+      "strength": 3
+    },
+    {
+      "source": "Company_088",
+      "target": "Company_058",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2018-05-01",
+      "strength": 7
+    },
+    {
+      "source": "Company_088",
+      "target": "Company_025",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2023-02-10",
+      "strength": 6
+    },
+    {
+      "source": "Company_088",
+      "target": "Company_082",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-06-22",
+      "strength": 7
+    },
+    {
+      "source": "Company_088",
+      "target": "Company_073",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-12-21",
+      "strength": 4
+    },
+    {
+      "source": "Company_089",
+      "target": "Company_012",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-11-13",
+      "strength": 6
+    },
+    {
+      "source": "Company_089",
+      "target": "Company_003",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-11-20",
+      "strength": 9
+    },
+    {
+      "source": "Company_089",
+      "target": "Company_061",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2017-02-10",
+      "strength": 5
+    },
+    {
+      "source": "Company_089",
+      "target": "Company_073",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-09-29",
+      "strength": 7
+    },
+    {
+      "source": "Company_090",
+      "target": "Company_084",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-06-19",
+      "strength": 9
+    },
+    {
+      "source": "Company_090",
+      "target": "Company_098",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-01-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_090",
+      "target": "Company_064",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2017-11-12",
+      "strength": 3
+    },
+    {
+      "source": "Company_091",
+      "target": "Company_005",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-02-15",
+      "strength": 4
+    },
+    {
+      "source": "Company_091",
+      "target": "Company_083",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2016-12-30",
+      "strength": 5
+    },
+    {
+      "source": "Company_091",
+      "target": "Company_032",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-07-12",
+      "strength": 4
+    },
+    {
+      "source": "Company_091",
+      "target": "Company_085",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2018-11-28",
+      "strength": 4
+    },
+    {
+      "source": "Company_092",
+      "target": "Company_004",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-10-22",
+      "strength": 7
+    },
+    {
+      "source": "Company_092",
+      "target": "Company_048",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-11-26",
+      "strength": 4
+    },
+    {
+      "source": "Company_092",
+      "target": "Company_041",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-12-12",
+      "strength": 7
+    },
+    {
+      "source": "Company_092",
+      "target": "Company_030",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2022-06-08",
+      "strength": 6
+    },
+    {
+      "source": "Company_092",
+      "target": "Company_017",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2021-04-24",
+      "strength": 7
+    },
+    {
+      "source": "Company_093",
+      "target": "Company_077",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2016-06-29",
+      "strength": 8
+    },
+    {
+      "source": "Company_093",
+      "target": "Company_027",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-03-16",
+      "strength": 9
+    },
+    {
+      "source": "Company_093",
+      "target": "Company_052",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2024-09-01",
+      "strength": 5
+    },
+    {
+      "source": "Company_094",
+      "target": "Company_051",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-10-05",
+      "strength": 4
+    },
+    {
+      "source": "Company_094",
+      "target": "Company_047",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2023-08-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_094",
+      "target": "Company_005",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-04-30",
+      "strength": 7
+    },
+    {
+      "source": "Company_094",
+      "target": "Company_073",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-11-12",
+      "strength": 10
+    },
+    {
+      "source": "Company_094",
+      "target": "Company_040",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2020-04-27",
+      "strength": 4
+    },
+    {
+      "source": "Company_095",
+      "target": "Company_081",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-09-01",
+      "strength": 6
+    },
+    {
+      "source": "Company_095",
+      "target": "Company_032",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2024-09-05",
+      "strength": 7
+    },
+    {
+      "source": "Company_095",
+      "target": "Company_044",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2022-04-07",
+      "strength": 1
+    },
+    {
+      "source": "Company_095",
+      "target": "Company_029",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2020-01-25",
+      "strength": 2
+    },
+    {
+      "source": "Company_096",
+      "target": "Company_008",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2022-01-09",
+      "strength": 6
+    },
+    {
+      "source": "Company_096",
+      "target": "Company_043",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2019-02-24",
+      "strength": 3
+    },
+    {
+      "source": "Company_096",
+      "target": "Company_016",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2016-08-24",
+      "strength": 1
+    },
+    {
+      "source": "Company_097",
+      "target": "Company_096",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2015-04-09",
+      "strength": 5
+    },
+    {
+      "source": "Company_097",
+      "target": "Company_032",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-01-19",
+      "strength": 9
+    },
+    {
+      "source": "Company_097",
+      "target": "Company_020",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2022-12-20",
+      "strength": 3
+    },
+    {
+      "source": "Company_097",
+      "target": "Company_011",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-09-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_098",
+      "target": "Company_061",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2019-11-16",
+      "strength": 4
+    },
+    {
+      "source": "Company_098",
+      "target": "Company_085",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2015-03-30",
+      "strength": 2
+    },
+    {
+      "source": "Company_098",
+      "target": "Company_090",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2015-01-02",
+      "strength": 7
+    },
+    {
+      "source": "Company_098",
+      "target": "Company_036",
+      "type": "shipment",
+      "description": "One-way delivery of goods",
+      "created": "2016-08-14",
+      "strength": 6
+    },
+    {
+      "source": "Company_098",
+      "target": "Company_042",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2016-05-09",
+      "strength": 10
+    },
+    {
+      "source": "Company_099",
+      "target": "Company_081",
+      "type": "order",
+      "description": "Order placed by a company to a supplier",
+      "created": "2022-04-21",
+      "strength": 4
+    },
+    {
+      "source": "Company_099",
+      "target": "Company_004",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2024-12-27",
+      "strength": 3
+    },
+    {
+      "source": "Company_099",
+      "target": "Company_072",
+      "type": "certify",
+      "description": "Certification or endorsement",
+      "created": "2018-09-22",
+      "strength": 3
+    },
+    {
+      "source": "Company_099",
+      "target": "Company_038",
+      "type": "partnership",
+      "description": "Strategic partnership",
+      "created": "2023-04-22",
+      "strength": 5
+    },
+    {
+      "source": "Company_099",
+      "target": "Company_019",
+      "type": "contract",
+      "description": "Legally binding agreement between companies",
+      "created": "2018-05-08",
+      "strength": 5
+    }
+  ]
+}

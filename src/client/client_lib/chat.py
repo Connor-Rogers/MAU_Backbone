@@ -7,7 +7,7 @@ from pydantic_ai.messages import (
     TextPart,
     UserPromptPart
 )
-def to_chat_message(m: ModelMessage) -> ChatMessage:
+def to_chat_message(m: ModelMessage, ctx) -> ChatMessage:
     first_part = m.parts[0]
     if isinstance(m, ModelRequest):
         if isinstance(first_part, UserPromptPart):
@@ -20,6 +20,7 @@ def to_chat_message(m: ModelMessage) -> ChatMessage:
     elif isinstance(m, ModelResponse):
         if isinstance(first_part, TextPart):
             return {
+                'ctx': ctx,
                 'role': 'model',
                 'timestamp': m.timestamp.isoformat(),
                 'content': first_part.content,
