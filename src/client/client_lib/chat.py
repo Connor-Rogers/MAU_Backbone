@@ -5,24 +5,38 @@ from pydantic_ai.messages import (
     ModelRequest,
     ModelResponse,
     TextPart,
-    UserPromptPart
+    UserPromptPart,
 )
-def to_chat_message(m: ModelMessage, ctx) -> ChatMessage:
-    first_part = m.parts[0]
-    if isinstance(m, ModelRequest):
-        if isinstance(first_part, UserPromptPart):
-            assert isinstance(first_part.content, str)
-            return {
-                'role': 'user',
-                'timestamp': first_part.timestamp.isoformat(),
-                'content': first_part.content,
-            }
-    elif isinstance(m, ModelResponse):
-        if isinstance(first_part, TextPart):
-            return {
-                'ctx': ctx,
-                'role': 'model',
-                'timestamp': m.timestamp.isoformat(),
-                'content': first_part.content,
-            }
-    raise UnexpectedModelBehavior(f'Unexpected message type for chat app: {m}')
+from typing import List
+
+def to_chat_message(resoponse_chain: List[(ModelMessage, str)]) -> ChatMessage:
+    """
+    Convert a response chain to a chat message format.
+    """
+    output_chain = []
+    for response in resoponse_chain:
+        message, tool = response
+        if isinstance(message, ModelRequest):
+            if isinstance(message, UserPromptPart):
+                assert isinstance(message.content, str)
+                output_chain.append(
+                    {
+                        "role": "user",
+                        "timestamp": message.timestamp.isoformat(),
+                        "content": message.content,
+                    }
+                )
+        elif isinstance(message, ModelResponse):
+            if isinstance(message, TextPart):
+                assert isinstance(message.content, str)
+                output_chain.append(
+                    {
+                        "type": "model",
+                        "tool": tool,
+                        "role": "model",
+                        "timestamp": message.timestamp.isoformat(),
+                        "content": message.content,
+                    }
+                )
+        else:
+            raise UnexpectedModelBehavior(f"Unexpected message type: {type(message)}")

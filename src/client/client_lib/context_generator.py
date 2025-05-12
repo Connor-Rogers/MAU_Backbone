@@ -1,6 +1,7 @@
 import logging
 from mcp import ClientSession, StdioServerParameters, stdio_client, Tool
 from pydantic_ai import Agent
+from mcp.types import CallToolResult
 import os
 from client_lib.database import Database
 import difflib
@@ -11,9 +12,8 @@ server_params = StdioServerParameters(
     command="uv", args=["run", "../servers/server.py", "server"], env=os.environ
 )
 class ContextGenerator:
-    def __init__(self, agent: Agent, database: Database):
+    def __init__(self, agent: Agent):
         self.agent = agent
-        self.database = database
 
     async def query_context(self, chat) -> str:
         """Generate context for the chat"""
@@ -28,6 +28,23 @@ class ContextGenerator:
             async with ClientSession(read, write) as session:
                 await session.initialize()
                 return await func(session)
+            
+    async def list_tools(self) -> list:
+        """List all available tools."""
+        async def fetch_tools(session: ClientSession):
+            try:
+                tools_result = await session.list_tools()
+                return list(tools_result.tools)
+            except Exception as e:
+                print(f"Error fetching tools: {e}")
+                return []
+
+        try:
+            result = await self.with_client_session(fetch_tools)
+            return result
+        except Exception as e:
+            print(f"Error in list_tools: {e}")
+            return []
 
     async def getTool(self, query: str) -> list:
         print(f"Starting getTool with query: {query}")
@@ -169,7 +186,7 @@ class ContextGenerator:
             print(f"Error extracting tool args: {e}")
             return {}
 
-    async def executeTool(self, tool_name: str, tool_args: dict | None = None) -> str:
+    async def executeTool(self, tool_name: str, tool_args: dict | None = None) -> CallToolResult:
         if tool_args is None:
             tool_args = {}
 
@@ -182,7 +199,7 @@ class ContextGenerator:
 
         return await self.with_client_session(execute)
     
-    async def get_and_execute_tool(self, query: str) -> str | None:
+    async def get_and_execute_tool(self, query: str) -> CallToolResult | None:
         try:
             # If query is empty or only whitespace, don't try to match tools
             if not query or query.strip() == "":

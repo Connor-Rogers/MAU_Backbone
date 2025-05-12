@@ -16,6 +16,7 @@ from pydantic_ai.messages import (
     ModelResponse,
     TextPart
 )
+from mcp.types import CallToolResult
 from client_lib.agent import agent
 from client_lib.database import Database, get_db
 from client_lib.chat import to_chat_message
