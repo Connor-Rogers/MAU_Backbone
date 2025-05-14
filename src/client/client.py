@@ -12,15 +12,9 @@ import logfire
 from fastapi import Depends
 from fastapi.responses import FileResponse, Response, StreamingResponse
 
-from pydantic_ai.messages import (
-    ModelResponse,
-    TextPart
-)
-from mcp.types import CallToolResult
-from client_lib.agent import agent
+from client_lib.cot import ChainOfThought
 from client_lib.database import Database, get_db
 from client_lib.chat import to_chat_message
-from client_lib.context_generator import ContextGenerator
 from fastapi.middleware.cors import CORSMiddleware
 
 # 'if-token-present' means nothing will be sent (and the example will work) if you don't have logfire configured
@@ -88,26 +82,32 @@ async def post_chat(
         # Create a working copy of the prompt that can be modified
         current_prompt = prompt
         
-        ctx_gen = ContextGenerator(agent, database)
-        ctx = await ctx_gen.get_and_execute_tool(current_prompt)
-        if ctx:
-            # if the context is not empty, add it to the prompt
-            current_prompt = f'Context: {ctx}\n User Prompt: {current_prompt}'
-        else: 
-            "" 
+        
+        
+        cot = ChainOfThought(
+            query=current_prompt,
+            previous_messages=await database.get_messages(),
+            database=database,
+        )
+        await cot.run_cot(max_iters=5)
         # get the chat history so far to pass as context to the agent
         messages = await database.get_messages()
         # run the agent with the user prompt and the chat history
-        async with agent.run_stream(current_prompt, message_history=messages) as result:
-            async for text in result.stream(debounce_by=0.01):
-                # text here is a `str` and the frontend wants
-                # JSON encoded ModelResponse, so we create one
-             
-                m = ModelResponse(parts=[TextPart(text)], timestamp=result.timestamp())
-                yield json.dumps(to_chat_message(m)).encode('utf-8') + b'\n'
+        # async with agent.run_stream(current_prompt, message_history=messages) as result:
+        #     async for text in result.stream(debounce_by=0.01):
+        #         # text here is a `str` and the frontend wants
+        #         # JSON encoded ModelResponse, so we create one
+        #      ``
+        #         # m = ModelResponse(parts=[TextPart(text)], timestamp=result.timestamp())
+        #         yield json.dumps(to_chat_message(cot.chain)).encode('utf-8') + b'\n'
+        logfire.info("Chain of thought length"+ str(len(cot.chain)))
+        for message in to_chat_message(cot.chain):
+                m = message
+                print(m)
+                yield json.dumps(m).encode('utf-8') + b'\n'
 
         # add new messages (e.g. the user prompt and the agent response in this case) to the database
-        await database.add_messages(result.new_messages_json())
+        # await database.add_messages(result.new_messages_json())
 
     return StreamingResponse(stream_messages(), media_type='text/plain')
 

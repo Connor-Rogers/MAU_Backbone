@@ -12,8 +12,9 @@ server_params = StdioServerParameters(
     command="uv", args=["run", "../servers/server.py", "server"], env=os.environ
 )
 class ContextGenerator:
-    def __init__(self, agent: Agent):
+    def __init__(self, agent: Agent, database: Database):
         self.agent = agent
+        self.database: Database = database
 
     async def query_context(self, chat) -> str:
         """Generate context for the chat"""

@@ -8,12 +8,3 @@ class ChatMessage(TypedDict):
     timestamp: str
     content: str
     parts: list[dict]
-
-class Thought(TypedDict):
-    """Format of messages sent to the model."""
-
-    role: Literal['user', 'model']
-    timestamp: str
-    content: str
-    parts: list[dict]
-  

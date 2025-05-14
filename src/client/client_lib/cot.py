@@ -1,86 +1,125 @@
-from client_lib.agent import agent
-from client_lib.context_generator import ContextGenerator
-from datetime import datetime, timezone
+from typing import List, Tuple
+import uuid
+from pydantic_ai.messages import (
+    ModelRequest,
+    ModelResponse,
+    ModelMessage,
+    UserPromptPart,
+    SystemPromptPart,
+    TextPart,
+    ToolReturnPart,
+)
+import logfire
 from mcp.types import CallToolResult
-
-from pydantic_ai.messages import ModelResponse, ModelMessage, TextPart
-
+from client_lib.agent import agent
+from client_lib.tooling import Tooling
+import re
+import json
 
 COT_END_PROMPT = "End of chain of thought"
 
-
 class ChainOfThought:
-    def __init__(self, query: str, previous_messages: list[ModelMessage] = None):
+    def __init__(self, query: str, previous_messages: list[ModelMessage] = None, database=None):
         self.previous_messages = previous_messages or []
         self.query = query
+        # now ModeMessage (ModelRequest | ModelResponse)
         self.chain: list[ModelMessage] = []
-        self.ctx = ContextGenerator(agent)
+        
 
     async def _generate_system_prompt(self, problem_description: str) -> str:
-        # build tool summary list
-        tools = await self.ctx.list_tools()
-        tool_summaries = "\n".join(f"{tool.name}: {tool.description}" for tool in tools)
-        if not tool_summaries:
-            tool_summaries = "No tools available."
-        return f"""
-You are a careful, step-by-step reasoning agent.
-You've got these tools available:
-{tool_summaries}
-
-When you need to use a tool, respond with a JSON call:
-{{"name": TOOL_NAME, "arguments": {{…}}}}
-Then wait for the tool's output before continuing your reasoning.
-When you have the final answer, give it clearly and end with "End of chain of thought.""".strip()+ "USER PROBLEM: "
-    async def run_cot(self, max_iters=5):
-        # seed chain with user query
-        self.chain.append(
-            ModelMessage(
-                role="user",
-                content=self.query,
-                timestamp=datetime.now(timezone.utc).isoformat(),
-                parts=[],
-                tools_used=[],
-            )
+        tools = await Tooling.list_tools()
+        tool_summaries = "\n".join(f"{t.name}: {t.description}" for t in tools) or "No tools available."
+        return (
+            "You are a careful, step-by-step reasoning agent.\n"
+            "You've got these tools available:\n"
+            f"{tool_summaries}\n\n"
+            "When you need to use a tool, respond with a JSON call:\n"
+            '{"name": TOOL_NAME, "arguments": {...}}\n'
+            'Then wait for the tool\'s output before continuing your reasoning.\n'
+            'When you have the final answer, give it clearly and end with '
+            f'"{COT_END_PROMPT}".\n\nUSER PROBLEM: \n'
+            f'{problem_description}'
         )
-        # prepare history
-        history = self.previous_messages + self.chain
-        # generate system prompt
-        system_prompt = await self._generate_system_prompt(self.query)
+
+    async def run_cot(self, max_iters: int = 5) -> str:
+        # 1) seed with user message
+        user_req = ModelRequest(
+            parts=[UserPromptPart(content=self.query)],
+            instructions=None,
+        )
+        self.chain.append(user_req)
+
+        # 2) build initial history
+        history = self.previous_messages + [user_req]
+
+        # 3) add system prompt
+        system_str = await self._generate_system_prompt(self.query)
+        sys_req = ModelRequest(
+            parts=[SystemPromptPart(content=system_str)],
+            instructions=None,
+        )
+        self.chain.append(sys_req)
+
+        # 4) iterative chain-of-thought loop
         for _ in range(max_iters):
-            # run agent in streaming mode
-            async with agent.run_stream(
-                system_prompt, message_history=history
-            ) as stream:
-                buffer = []
+            buffer: list[str] = []
+            prev_chunk = None
+            async with agent.run_stream(system_str, message_history=history) as stream:
                 async for part in stream.stream(debounce_by=0.01):
+                    system_str = f"'When you have the final answer, give it clearly and end with {COT_END_PROMPT}'"
                     if isinstance(part, CallToolResult):
-                        # handle tool result
-                        tool_msg = ModelMessage(
-                            role="model",
-                            content=str(part),
-                            timestamp=stream.timestamp(),
-                            parts=[],
-                            tools_used=[part.name],
-                        )
-                        self.chain.append(tool_msg)
-                        history.append(tool_msg)
+                        resp = ModelResponse(
+                        parts=[TextPart(content=result)],
+                        model_name=f"ChainOfThought:{tool}",
+                        timestamp=stream.timestamp(),
+                    )
+                       
+                        self.chain.append(resp)
+                        history.append(resp)
                     else:
-                        buffer.append(part)
-                # assemble model response
-                response_text = "".join(buffer)
-                
-                # check for end marker
-                if "End of chain of thought" in response_text:
-                    final = response_text.replace("End of chain of thought", "").strip()
-                    return final
-                # normal response
-                model_msg = ModelMessage(
-                    role="model",
-                    content=response_text,
-                    timestamp=stream.timestamp(),
-                    parts=[TextPart(response_text)],
-                    tools_used=[],
-                )
-                self.chain.append(model_msg)
-                history.append(model_msg)
+                        # `part` is the full text-so-far; strip off what we've already seen
+                        if prev_chunk is not None and part.startswith(prev_chunk):
+                            delta = part[len(prev_chunk):]
+                        else:
+                            # in case of resets or jumps, just take everything
+                            delta = part
+                        buffer.append(delta)
+                        prev_chunk = part
+
+
+            # assemble the full text response
+            text = "".join(buffer)
+            print(f"Full text response: {text}")
+            # Try to find and handle tool calls in the text
+            text_part = TextPart(content=text)
+            resp = ModelResponse(
+                parts=[text_part],
+                model_name=None,
+                timestamp=stream.timestamp(),
+            )
+            self.chain.append(resp)
+            history.append(resp)
+            
+            tool_result:List[Tuple[str, str]]= await Tooling.execute_tool_from_text(text)
+            if tool_result:
+
+                # If tool calls were detected, handle them
+                for result, tool in tool_result:
+                    resp = ModelResponse(
+                        parts=[TextPart(content=result)],
+                        model_name=f"ChainOfThought:{tool}",
+                        timestamp=stream.timestamp(),
+                    )
+                    print(f"Tool result: {resp}")
+                    self.chain.append(resp)
+                    history.append(resp)
+
+
+            
+            
+
+            # check for end marker
+            if COT_END_PROMPT in text:
+                return text.replace(COT_END_PROMPT, "").strip()
+
         raise RuntimeError("Exceeded max iterations without a final answer")
