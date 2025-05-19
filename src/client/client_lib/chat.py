@@ -1,4 +1,3 @@
-from typing import List
 from client_lib.types import ChatMessage
 from pydantic_ai.exceptions import UnexpectedModelBehavior
 from pydantic_ai.messages import (
@@ -9,43 +8,46 @@ from pydantic_ai.messages import (
     UserPromptPart,
     ToolReturnPart,
 )
+def determine_agent_role(msg: ModelResponse) -> str:
+    """
+    Determine the role of the message based on its type.
+    """
+    if isinstance(msg, ModelResponse):
+        if msg.model_name.startswith("ChainOfThought:Model:"):
+            return "model"
+        elif msg.model_name.startswith("ChainOfThought:Tool:"):
+            return "tool"
+        return f"ChainOfThought:Model:{msg.model_name}"
 
-def to_chat_message(response_chain: List[ModelMessage]) -> ChatMessage:
+def to_chat_message(msg: ModelMessage) -> ChatMessage:
     """
     Convert a chain of ModelMessage into your ChatMessage format.
     """
-    chat: ChatMessage = []
-    for msg in response_chain:
-        # requests contain user (and system) prompts
-        print(type(msg))
-        
-        
-        if isinstance(msg, ModelRequest):
-            for part in msg.parts:
-                if isinstance(part, UserPromptPart):
-                    # we know content is str here
-                    chat.append({
-                        "role": "user",
-                        "timestamp": part.timestamp.isoformat(),
-                        "content": part.content,
-                    })
+    if isinstance(msg, ModelRequest):
+        for part in msg.parts:
+            if isinstance(part, UserPromptPart):
+                # we know content is str here
+                return {
+                    "role": "user",
+                    "timestamp": part.timestamp.isoformat(),
+                    "content": part.content,
+                }
 
         # responses contain text and tool-return parts
-        elif isinstance(msg, ModelResponse):
-            for part in msg.parts:
-                if isinstance(part, TextPart):
-                    chat.append({
-                        "role": "model",
-                        "timestamp": msg.timestamp.isoformat(),
-                        "content": part.content,
-                    })
-                elif isinstance(part, ToolReturnPart):
-                    chat.append({
-                        "role":      "tool",
-                        "tool":      part.tool_name,
-                        "timestamp": part.timestamp.isoformat(),
-                        "content":   part.content,
-                    })
-        else:
-            raise UnexpectedModelBehavior(f"Unexpected message type: {type(msg)}")
-    return chat
+    elif isinstance(msg, ModelResponse):
+        for part in msg.parts:
+            if isinstance(part, TextPart):
+                return{
+                    "role": determine_agent_role(msg),
+                    "timestamp": msg.timestamp.isoformat(),
+                    "content": part.content,
+                }
+            elif isinstance(part, ToolReturnPart):
+                return{
+                    "role":      "tool",
+                    "tool":      part.tool_name,
+                    "timestamp": part.timestamp.isoformat(),
+                    "content":   part.content,
+                }
+    else:
+        raise UnexpectedModelBehavior(f"Unexpected message type: {type(msg)}")

@@ -15,6 +15,8 @@ import {
   TextInputKeyPressEventData
 } from 'react-native';
 import Markdown from 'react-native-markdown-display';
+import MessageBubble from './components/MessageBubble';
+import Message from './constants/Message';
 
 // Get screen dimensions for responsive design
 const { width } = Dimensions.get('window');
@@ -27,12 +29,6 @@ const API_BASE_URL = Platform.select({
   web: 'http://127.0.0.1:2002', // Web uses standard localhost
   default: 'http://127.0.0.1:2002', // Fallback
 });
-
-interface Message {
-  role: string;
-  content: string;
-  timestamp: string;
-}
 
 export default function App() {
   const [prompt, setPrompt] = useState('');
@@ -94,11 +90,21 @@ export default function App() {
   function addMessages(responseText: string) {
     try {
       const lines = responseText.split('\n').filter(line => line.trim().length > 1);
-      const newMessages = lines.map(line => JSON.parse(line) as Message);
-      setMessages(prevMessages => {
-        const messageMap = new Map(prevMessages.map(m => [m.timestamp, m]));
-        newMessages.forEach(msg => messageMap.set(msg.timestamp, msg));
-        return Array.from(messageMap.values());
+      const newMessages = lines
+        .map(line => {
+          try {
+        const parsedMessage = JSON.parse(line) as Message;
+        return parsedMessage;
+          } catch (error) {
+        console.error('Failed to parse message line:', line, error);
+        return null;
+          }
+        })
+        .filter(message => message !== null);
+      setMessages(prev => {
+        const map = new Map(prev.map(m => [`${m.timestamp}-${m.role}`, m]));
+        newMessages.forEach(msg => map.set(`${msg.timestamp}-${msg.role}`, msg));
+        return Array.from(map.values());
       });
     } catch (error) {
       console.error('Error parsing messages:', error);
@@ -162,7 +168,7 @@ export default function App() {
     let currentGroup: Message[] = [];
 
     messages.forEach(msg => {
-      const date = new Date(msg.timestamp).toLocaleDateString();
+      const date = new Date(msg?.timestamp).toLocaleDateString();
       if (date !== currentDate) {
         if (currentGroup.length > 0) {
           groups.push({date: currentDate, messages: [...currentGroup]});
@@ -245,57 +251,14 @@ export default function App() {
               {group.messages.map((msg, index) => {
                 const isUserMessage = msg.role === 'user';
                 const isConsecutive = index > 0 && group.messages[index - 1].role === msg.role;
-                
                 return (
-                  <View key={msg.timestamp} style={styles.messageRow}>
-                    {!isUserMessage && !isConsecutive && (
-                      <View style={styles.avatarContainer}>
-                        <View style={styles.avatar}>
-                          <Text style={styles.avatarText}>AI</Text>
-                        </View>
-                      </View>
-                    )}
-                    
-                    <View style={[
-                      styles.messageContainer,
-                      isUserMessage ? styles.userMessageContainer : styles.aiMessageContainer,
-                      !isUserMessage && !isConsecutive && styles.firstAiMessage,
-                      !isUserMessage && isConsecutive && styles.consecutiveAiMessage
-                    ]}>
-                      <View style={[
-                        styles.messageBubble,
-                        isUserMessage ? styles.userBubble : styles.aiBubble,
-                        isConsecutive && styles.consecutiveBubble
-                      ]}>
-                        <Markdown
-                          style={{
-                            body: {
-                              color: isUserMessage ? '#FFFFFF' : '#000000',
-                              fontSize: 16,
-                            },
-                            code_block: {
-                              backgroundColor: isUserMessage ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)',
-                              padding: 8,
-                              borderRadius: 5,
-                            },
-                            code_inline: {
-                              backgroundColor: isUserMessage ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)',
-                              padding: 4,
-                              borderRadius: 3,
-                            },
-                          }}
-                        >
-                          {msg.content}
-                        </Markdown>
-                      </View>
-                      <Text style={[
-                        styles.timestamp, 
-                        isUserMessage ? styles.userTimestamp : styles.aiTimestamp
-                      ]}>
-                        {formatTimestamp(msg.timestamp)}
-                      </Text>
-                    </View>
-                  </View>
+                  <MessageBubble
+                    key={`${msg.timestamp}-${msg.role}`}
+                    msg={msg}
+                    isUserMessage={isUserMessage}
+                    isConsecutive={isConsecutive}
+                    formatTimestamp={formatTimestamp}
+                  />
                 );
               })}
             </View>
