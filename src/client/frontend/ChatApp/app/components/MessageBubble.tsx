@@ -66,15 +66,26 @@ const styles = StyleSheet.create({
   avatarContainer: { justifyContent: 'flex-end', alignItems: 'center', marginRight: 8, paddingBottom: 15 },
   avatar: { backgroundColor: '#E1E1E1', borderRadius: 15, width: 30, height: 30, justifyContent: 'center', alignItems: 'center' },
   avatarText: { color: '#888888', fontSize: 12, fontWeight: 'bold' },
-  messageContainer: { maxWidth: MAX_BUBBLE_WIDTH, marginVertical: 2 },
+  messageContainer: { maxWidth: MAX_BUBBLE_WIDTH, marginVertical: 2, flexShrink: 1, flexWrap: 'wrap' },
   userMessageContainer: { alignSelf: 'flex-end', marginLeft: 50 },
   aiMessageContainer: { alignSelf: 'flex-start', marginRight: 50 },
   firstAiMessage: { marginTop: 8 },
   consecutiveAiMessage: { marginTop: 2 },
-  messageBubble: { padding: 12, borderRadius: 18, minHeight: 36 },
-  userBubble: { backgroundColor: '#0B93F6', marginLeft: 40, borderTopRightRadius: 4 },
-  aiBubble: { backgroundColor: '#E9EEB', borderTopLeftRadius: 4 },
-  consecutiveBubble: { marginTop: 2, borderTopLeftRadius: 18, borderTopRightRadius: 18 },
+  messageBubble: { padding: 12, borderRadius: 18, minHeight: 36, flexShrink: 1, overflow: 'hidden' },
+  userBubble: { 
+    backgroundColor: '#0B84FF',
+    marginLeft: 40,
+    borderTopRightRadius: 4
+  },
+  aiBubble: { 
+    backgroundColor: '#2C2C2E',
+    borderTopLeftRadius: 4
+  },
+  consecutiveBubble: { 
+    marginTop: 2,
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18
+  },
   timestamp: { fontSize: 10, color: '#8E8E93', paddingTop: 2, paddingHorizontal: 4 },
   userTimestamp: { alignSelf: 'flex-end' },
   aiTimestamp: { alignSelf: 'flex-start' },

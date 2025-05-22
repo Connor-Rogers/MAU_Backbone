@@ -11,3 +11,6 @@ async def with_client_session(func):
             async with ClientSession(read, write) as session:
                 await session.initialize()
                 return await func(session)
+
+
+

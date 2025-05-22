@@ -34,8 +34,8 @@ class ChainOfThought:
     def __init__(self, query: str, previous_messages: list[ModelMessage] = None, database=None):
         self.previous_messages = previous_messages or []
         self.query = query
+        self.view = None
         self.tool_summaries = None
-        # now ModeMessage (ModelRequest | ModelResponse)
         self.chain: list[ModelMessage] = []
         
 
@@ -62,6 +62,7 @@ class ChainOfThought:
             instructions=None,
         )
         # 2) build initial history
+        self.chain.append(user_req)
         history = self.previous_messages + [user_req]
         terminate = False
         # 3) add system prompt
@@ -108,7 +109,7 @@ class ChainOfThought:
                 terminate = True
             
             if not terminate:
-                tool_result:List[Tuple[str, str]]= await Tooling.execute_tool_from_text(text)
+                tool_result:List[Tuple[str, str, str]]= await Tooling.execute_tool_from_text(text)
             
             if tool_result:
                 text = re.sub(r'\{.*?\}', '', text, flags=re.DOTALL).strip()
@@ -128,14 +129,15 @@ class ChainOfThought:
     
             if tool_result:
                 # If tool calls were detected, handle them
-                for result, tool in tool_result:
+                for view, result, tool in tool_result:
                     resp = ModelResponse(
                         parts=[TextPart(content=result)],
                         model_name=f"ChainOfThought:Tool:{tool}",
                         timestamp=stream.timestamp(),
                     )
                     logfire.info(f"Tool result: {resp}")
-                    self.chain.append(resp)
+                    self.view = view
+                    self.chain.append((resp, view))
                     history.append(resp)
 
         # 5) if we get here, we didn't find the end marker (aka we thought to hard)     

@@ -54,9 +54,11 @@ class Tooling:
             print(f"Error in call_tool: {e}")
             return None
     @staticmethod 
-    async def execute_tool_from_text(text: str) -> list[Tuple[CallToolResult, str]]:
+    async def execute_tool_from_text(text: str) -> list[Tuple[str, str, str]]:
         """
         Detects tool calls in the given text, executes them, and returns the results.
+
+        returns a list of tuples containing the view, response, and tool name.
         """
         tool_calls = Tooling.detect_tool_calls(text)
         results = []
@@ -68,6 +70,8 @@ class Tooling:
             if tool:
                 result = await Tooling.call_tool(tool, arguments)
                 if result:
-                    results.append(("".join([item.text for item in result.content]), tool.name))
+                    blob: dict = json.loads("".join([item.text for item in result.content]))
+                    
+                    results.append((blob.get("view"), blob.get("response"), tool.name))
         
         return results
