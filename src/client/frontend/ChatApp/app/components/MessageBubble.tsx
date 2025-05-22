@@ -38,7 +38,7 @@ const MessageBubble: React.FC<Props> = ({ msg, isUserMessage, isConsecutive, for
       >
         <Markdown
           style={{
-            body: { color: '#FFFFFF', fontSize: 16 },
+            body: { color: isUserMessage ? '#FFFFFF' : '#000000', fontSize: 16 },
             code_block: {
               backgroundColor: isUserMessage ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)',
               padding: 8,
