@@ -1,0 +1,11 @@
+fastapi==0.115.12
+logfire==3.16.0
+matplotlib==3.10.3
+mcp==1.9.0
+networkx==3.4.2
+numpy==2.2.6
+pydantic==2.11.4
+pydantic_ai==0.2.6
+python_louvain==0.16
+typing_extensions==4.13.2
+uvicorn==0.34.2
