@@ -19,7 +19,7 @@ def determine_agent_role(msg: ModelResponse) -> str:
             return "tool"
         return f"ChainOfThought:Model:{msg.model_name}"
 
-def to_chat_message(msg: ModelMessage) -> ChatMessage:
+def to_chat_message(msg: ModelMessage, view=None) -> ChatMessage:
     """
     Convert a chain of ModelMessage into your ChatMessage format.
     """
@@ -39,15 +39,9 @@ def to_chat_message(msg: ModelMessage) -> ChatMessage:
             if isinstance(part, TextPart):
                 return{
                     "role": determine_agent_role(msg),
+                    "view": view,
                     "timestamp": msg.timestamp.isoformat(),
                     "content": part.content,
-                }
-            elif isinstance(part, ToolReturnPart):
-                return{
-                    "role":      "tool",
-                    "tool":      part.tool_name,
-                    "timestamp": part.timestamp.isoformat(),
-                    "content":   part.content,
                 }
     else:
         raise UnexpectedModelBehavior(f"Unexpected message type: {type(msg)}")

@@ -111,11 +111,19 @@ async def post_chat(
         # 2) yield its client‐facing representation
         for part in cot.chain:
             # part is either a ModelRequest or ModelResponse
+            view = None
+            # unpack tool view and return part form the tuple
+            if isinstance(part, tuple):
+                part, view = part
+            
             blob: bytes = ModelMessagesTypeAdapter.dump_json([part])
 
             await database.add_messages(blob)
-
-            client_json = json.dumps(to_chat_message(part)).encode("utf-8") + b"\n"
+            # Skip echoing the query part
+            if part == cot.chain[0]:
+                continue
+            
+            client_json = json.dumps(to_chat_message(part, view)).encode("utf-8") + b"\n"
             logfire.debug(
                 f"Yielding message: {client_json}",
             )

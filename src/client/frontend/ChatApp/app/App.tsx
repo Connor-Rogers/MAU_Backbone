@@ -12,11 +12,12 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   NativeSyntheticEvent,
-  TextInputKeyPressEventData
+  TextInputKeyPressEventData,
+  RefreshControl
 } from 'react-native';
-import Markdown from 'react-native-markdown-display';
-import MessageBubble from './components/MessageBubble';
 import Message from './constants/Message';
+import ChatPane from './components/ChatPane';
+import VisualizerPane from './components/VisualizerPane';
 
 // Get screen dimensions for responsive design
 const { width } = Dimensions.get('window');
@@ -31,6 +32,8 @@ const API_BASE_URL = Platform.select({
 });
 
 export default function App() {
+  const isWeb = Platform.OS === 'web';
+  const [showVisualizer, setShowVisualizer] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
@@ -219,85 +222,56 @@ export default function App() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Messages</Text>
+      {/* App header bar */}
+      <View style={styles.appHeader}>
+        <Text style={styles.appHeaderTitle}>ARCANE</Text>
       </View>
-      
-      <KeyboardAvoidingView 
-        style={styles.contentContainer} 
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-      >
-        <ScrollView
-          ref={scrollViewRef}
-          style={styles.messagesContainer}
-          contentContainerStyle={styles.scrollContent}
-        >
-          {apiError && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>{apiError}</Text>
-              <TouchableOpacity onPress={fetchMessages} style={styles.retryButton}>
-                <Text style={styles.retryButtonText}>Retry</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          
-          {getMessageGroups().map((group, groupIndex) => (
-            <View key={`group-${groupIndex}`}>
-              <View style={styles.dateHeaderContainer}>
-                <Text style={styles.dateHeader}>{group.date}</Text>
-              </View>
-              
-              {group.messages.map((msg, index) => {
-                const isUserMessage = msg.role === 'user';
-                const isConsecutive = index > 0 && group.messages[index - 1].role === msg.role;
-                return (
-                  <MessageBubble
-                    key={`${msg.timestamp}-${msg.role}`}
-                    msg={msg}
-                    isUserMessage={isUserMessage}
-                    isConsecutive={isConsecutive}
-                    formatTimestamp={formatTimestamp}
-                  />
-                );
-              })}
-            </View>
-          ))}
-          
-          {loading && (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="small" color="#0084ff" />
-            </View>
-          )}
-        </ScrollView>
-        
-        <View style={styles.inputWrapper}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              value={prompt}
-              onChangeText={setPrompt}
-              placeholder="iMessage"
-              placeholderTextColor="#8E8E93"
-              multiline
-              onKeyPress={handleKeyPress}
-              blurOnSubmit={false}
+
+      {isWeb ? (
+        <View style={styles.webContainer}>
+          <View style={styles.chatPane}>
+            <ChatPane
+              messages={messages}
+              prompt={prompt}
+              setPrompt={setPrompt}
+              onSubmit={onSubmit}
+              loading={loading}
+              apiError={apiError}
             />
-            <TouchableOpacity 
-              style={styles.sendButton} 
-              onPress={onSubmit}
-              disabled={!prompt.trim()}
-            >
-              <View style={[
-                styles.sendButtonBackground,
-                prompt.trim() ? styles.sendButtonActive : styles.sendButtonInactive
-              ]}>
-                <Text style={styles.sendButtonText}>↑</Text>
-              </View>
-            </TouchableOpacity>
+          </View>
+          <View style={styles.visualizerPane}>
+            <VisualizerPane />
           </View>
         </View>
-      </KeyboardAvoidingView>
+      ) : (
+        <View style={styles.mobileContainer}>
+          <ScrollView
+            ref={scrollViewRef}
+            style={styles.messagesContainer}
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={false}
+                onRefresh={() => setShowVisualizer(prev => !prev)}
+                tintColor="#0B93F6"
+              />
+            }
+          >
+            {showVisualizer ? (
+              <VisualizerPane />
+            ) : (
+              <ChatPane
+                messages={messages}
+                prompt={prompt}
+                setPrompt={setPrompt}
+                onSubmit={onSubmit}
+                loading={loading}
+                apiError={apiError}
+              />
+            )}
+          </ScrollView>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -306,6 +280,21 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     backgroundColor: '#FFFFFF' 
+  },
+  appHeader: {
+    height: 56,
+    backgroundColor: '#111',
+    justifyContent: 'center',
+    alignItems: 'flex-start',  // align title left
+    paddingHorizontal: 16,     // add horizontal padding
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  appHeaderTitle: {
+    color: '#0FCFEC',
+    fontSize: 20,
+    fontWeight: '700',
+    fontFamily: Platform.OS === 'web' ? 'Arial' : undefined,
   },
   header: { 
     paddingVertical: 16, 
@@ -319,7 +308,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#000000'
   },
-  contentContainer: { flex: 1 },
+  webContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#1E1E1E',
+  },
+  chatPane: {
+    flex: 3,
+    borderRightWidth: 1,
+    borderRightColor: '#333',
+  },
+  visualizerPane: {
+    flex: 2,
+  },
+  mobileContainer: {
+    flex: 1,
+    backgroundColor: '#1E1E1E',
+  },
   messagesContainer: { 
     flex: 1, 
     backgroundColor: '#FFFFFF' 
