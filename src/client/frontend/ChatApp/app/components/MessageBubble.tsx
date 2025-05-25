@@ -38,7 +38,8 @@ const MessageBubble: React.FC<Props> = ({ msg, isUserMessage, isConsecutive, for
       >
         <Markdown
           style={{
-            body: { color: isUserMessage ? '#FFFFFF' : '#000000', fontSize: 16 },
+            // All message text white for both user and agent
+            body: { color: '#FFFFFF', fontSize: 16 },
             code_block: {
               backgroundColor: isUserMessage ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)',
               padding: 8,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   messageRow: { flexDirection: 'row', marginVertical: 2 },
   avatarContainer: { justifyContent: 'flex-end', alignItems: 'center', marginRight: 8, paddingBottom: 15 },
   avatar: { backgroundColor: '#E1E1E1', borderRadius: 15, width: 30, height: 30, justifyContent: 'center', alignItems: 'center' },
-  avatarText: { color: '#888888', fontSize: 12, fontWeight: 'bold' },
+  avatarText: { color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' },
   messageContainer: { maxWidth: MAX_BUBBLE_WIDTH, marginVertical: 2, flexShrink: 1, flexWrap: 'wrap' },
   userMessageContainer: { alignSelf: 'flex-end', marginLeft: 50 },
   aiMessageContainer: { alignSelf: 'flex-start', marginRight: 50 },
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 4
   },
   aiBubble: { 
-    backgroundColor: '#2C2C2E',
+    backgroundColor: '#444444',
     borderTopLeftRadius: 4
   },
   consecutiveBubble: { 
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18
   },
-  timestamp: { fontSize: 10, color: '#8E8E93', paddingTop: 2, paddingHorizontal: 4 },
+  timestamp: { fontSize: 10, color: '#FFFFFF', paddingTop: 2, paddingHorizontal: 4 },
   userTimestamp: { alignSelf: 'flex-end' },
   aiTimestamp: { alignSelf: 'flex-start' },
 });

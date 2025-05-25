@@ -89,7 +89,7 @@ export default function App() {
       setLoading(false);
     }
   }
-
+  // TODO:  Group Chain Responses, Parse and Display as an Expandable Chain Element in Chat 
   function addMessages(responseText: string) {
     try {
       const lines = responseText.split('\n').filter(line => line.trim().length > 1);

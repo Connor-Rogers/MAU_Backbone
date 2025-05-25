@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -25,6 +25,8 @@ export interface ChatPaneProps {
 
 export default function ChatPane({ messages, prompt, setPrompt, onSubmit, loading, apiError }: ChatPaneProps) {
   const scrollRef = useRef<ScrollView>(null);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
   // Scroll to bottom on new messages
   React.useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -42,22 +44,63 @@ export default function ChatPane({ messages, prompt, setPrompt, onSubmit, loadin
     <View style={styles.container}>
       {apiError && <Text style={styles.error}>{apiError}</Text>}
       <ScrollView ref={scrollRef} style={styles.list} contentContainerStyle={styles.content}>
-        {groups.map((g,i) => (
-          <View key={i}>
-            <Text style={styles.date}>{g.date}</Text>
-            {g.msgs.map((m,j) => (
-              <MessageBubble
-                key={`${m.timestamp}-${m.role}`}
-                msg={m}
-                isUserMessage={m.role==='user'}
-                isConsecutive={j>0 && g.msgs[j-1].role===m.role}
-                formatTimestamp={formatTime}
-              />
-            ))}
-          </View>
-        ))}
-        {loading && <ActivityIndicator style={styles.loading} color="#FF4136" />}
-      </ScrollView>
+        {groups.map((dateGroup, gi) => (
+          <View key={gi} style={styles.dateGroup}>
+            <Text style={styles.dateHeader}>{dateGroup.date}</Text>
+            {/* Render each block of consecutive messages */}
+            {(() => {
+              const blocks: Array<{isUser: boolean; msgs: Message[]}> = [];
+              dateGroup.msgs.forEach(m => {
+                const isUser = m.role === 'user';
+                const last = blocks[blocks.length - 1];
+                if (last && last.isUser === isUser) {
+                  last.msgs.push(m);
+                } else {
+                  blocks.push({ isUser, msgs: [m] });
+                }
+              });
+               return blocks.map((blk, bi) => {
+                 const key = `${gi}-${bi}`;
+                // render user blocks fully, others (AI/tool) collapsibly
+                if (blk.isUser) {
+                  return blk.msgs.map((m, idx) => (
+                    <MessageBubble
+                      key={`${m.timestamp}-${m.role}`}
+                      msg={m}
+                      isUserMessage={true}
+                      isConsecutive={idx > 0}
+                      formatTimestamp={formatTime}
+                    />
+                  ));
+                }
+                const isExpanded = expanded[key];
+                const msgs = blk.msgs;
+                const lastMsg = msgs[msgs.length - 1];
+                return (
+                  <View key={key} style={styles.aiBlock}>
+                   <TouchableOpacity
+                     style={styles.groupToggle}
+                     onPress={() => setExpanded(prev => ({ ...prev, [key]: !prev[key] }))}
+                   >
+                     <Text style={styles.toggleText}>{isExpanded ? 'Collapse ▲' : 'Explain ▼'}</Text>
+                   </TouchableOpacity>
+{(isExpanded ? msgs : [lastMsg]).map((m, idx) => (
+  <MessageBubble
+    key={`${m.timestamp}-${m.role}`}
+    msg={m}
+    isUserMessage={false}
+    isConsecutive={idx > 0}
+    formatTimestamp={formatTime}
+  />
+))}
+                   </View>
+                 );
+               });
+             })()}
+           </View>
+         ))}
+         {loading && <ActivityIndicator style={styles.loading} color="#FF4136" />}
+       </ScrollView>
       <View style={styles.inputWrap}>
         <TextInput
           style={styles.input}
@@ -89,5 +132,25 @@ const styles = StyleSheet.create({
   sendBtn: { marginLeft:8, padding:8 },
   sendTxt: { fontSize:20 },
   active: { color:'#2ECC40' },
-  inactive: { color:'#555' }
+  inactive: { color:'#555' },
+  groupToggle: {
+    backgroundColor: '#333',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    alignSelf: 'center',
+    borderRadius: 4,
+    marginVertical: 4,
+  },
+  toggleContainer: { padding: 10, alignItems: 'center' },
+  toggleText: { color: '#FFF', fontSize: 16 },
+  dateGroup: { marginBottom: 20 },
+  dateHeader: { 
+    textAlign: 'center', 
+    color: '#FFF', 
+    fontSize: 14, 
+    marginBottom: 8,
+    marginTop: 10,
+    fontWeight: 'bold'
+  },
+  aiBlock: { marginBottom: 10 },
 });
