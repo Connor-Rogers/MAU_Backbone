@@ -99,7 +99,7 @@ export default function ChatPane({ messages, prompt, setPrompt, onSubmit, loadin
              })()}
            </View>
          ))}
-         {loading && <ActivityIndicator style={styles.loading} color="#FF4136" />}
+         {loading && <ActivityIndicator style={styles.loading} color="#CCCCCC" />}
        </ScrollView>
       <View style={styles.inputWrap}>
         <TextInput
@@ -109,6 +109,11 @@ export default function ChatPane({ messages, prompt, setPrompt, onSubmit, loadin
           placeholder="Enter command..."
           placeholderTextColor="#555"
           multiline
+          onKeyPress={(e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+            if (e.nativeEvent.key === 'Enter') {
+              onSubmit();
+            }
+          }}
           onSubmitEditing={onSubmit}
           blurOnSubmit={false}
         />
@@ -131,8 +136,8 @@ const styles = StyleSheet.create({
   input: { flex:1, color:'#EEE', backgroundColor:'#1E1E1E', borderRadius:20, paddingHorizontal:16, paddingVertical:10, maxHeight:100, borderWidth:1, borderColor:'#333' },
   sendBtn: { marginLeft:8, padding:8 },
   sendTxt: { fontSize:20 },
-  active: { color:'#2ECC40' },
-  inactive: { color:'#555' },
+  active: { color: '#0FCFEC' },
+  inactive: { color: '#555' },
   groupToggle: {
     backgroundColor: '#333',
     paddingVertical: 6,

@@ -114,15 +114,16 @@ class ChainOfThought:
             if tool_result:
                 text = re.sub(r'\{.*?\}', '', text, flags=re.DOTALL).strip()
                 text = re.sub(r'[\{\}]', '', text).strip()
-            
+                
             # Append Model Response
-            resp = ModelResponse(
-                parts=[TextPart(content=text)],
-                model_name=f"ChainOfThought:Model:{agent.name}",
-                timestamp=stream.timestamp(),
-            ) 
-            self.chain.append(resp)
-            history.append(resp)
+            if not text.strip() == "":
+                resp = ModelResponse(
+                    parts=[TextPart(content=text)],
+                    model_name=f"ChainOfThought:Model:{agent.name}",
+                    timestamp=stream.timestamp(),
+                ) 
+                self.chain.append(resp)
+                history.append(resp)
 
             if terminate:
                 return

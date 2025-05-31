@@ -4,7 +4,14 @@ from mcp import ClientSession, Tool
 from mcp.types import CallToolResult
 
 from client_lib.server_utils import with_client_session
-TOOL_PATTERN = r'{"name":\s*"([^"]+)",\s*"arguments":\s*({.*?})}'
+
+TOOL_PATTERN = re.compile(
+    r'(?:```(?:json)?\s*)?'                     # optional opening fence  ``` or ```json
+    r'\{\s*"name"\s*:\s*"([^"]+)"\s*,'         #   "name": "..."
+    r'\s*"arguments"\s*:\s*({.*?})\s*'         #   "arguments": { ... }
+    r'\}(?:\s*```)?',                          # trailing brace + optional closing fence
+    re.DOTALL                                  # <-- let "." cross line-breaks
+)
 
 class Tooling:
     @staticmethod

@@ -240,7 +240,7 @@ export default function App() {
             />
           </View>
           <View style={styles.visualizerPane}>
-            <VisualizerPane />
+            <VisualizerPane messages={messages} />
           </View>
         </View>
       ) : (
@@ -258,7 +258,7 @@ export default function App() {
             }
           >
             {showVisualizer ? (
-              <VisualizerPane />
+              <VisualizerPane messages={messages} />
             ) : (
               <ChatPane
                 messages={messages}
