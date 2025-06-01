@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "d3-force": "^3.0.0",
+    "react-native-svg": "^15.12.0"
+  }
+}

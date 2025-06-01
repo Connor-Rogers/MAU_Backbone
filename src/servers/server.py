@@ -35,7 +35,7 @@ async def graph_stats() -> str:
 @server.tool("list_communities", "Get detected community clusters in the network")
 async def list_communities() -> str:
     comm = graph_res.list_communities()
-    return ToolWithView(view="graph", response=graph_res.to_json(comm))
+    return ToolWithView(view="table", response=graph_res.to_json(comm))
 
 
 
