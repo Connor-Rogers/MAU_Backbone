@@ -37,7 +37,9 @@ export default function VisualizerPane({ messages }: { messages: Message[] }) {
   return (
     <View style={styles.container}>
       {view === 'graph' ? (
-        <GraphVisualizer data={parsed as any} />
+        <ScrollView contentContainerStyle={styles.content}>
+          <GraphVisualizer data={parsed as any} />
+        </ScrollView>
       ) : (
         <ScrollView contentContainerStyle={styles.content}>
           <TableVisualizer data={parsed} />
