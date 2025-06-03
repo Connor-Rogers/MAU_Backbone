@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import TableVisualizer from './TableVisualizer';
+import GraphVisualizer from './GraphVisualizer';
 import Message from '../constants/Message';
 
 
@@ -18,6 +19,10 @@ export default function VisualizerPane({ messages }: { messages: Message[] }) {
     );
   }
   const lastTool = toolMsgs[toolMsgs.length - 1];
+  // If view is null, do not render anything
+  if (lastTool.view == null) {
+    return null;
+  }
   let parsed: Array<Record<string, any>> = [];
   try {
     parsed = JSON.parse(lastTool.content);
@@ -31,13 +36,15 @@ export default function VisualizerPane({ messages }: { messages: Message[] }) {
   const view = lastTool.view;
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        {view === 'graph' ? (
-          <Text style={styles.placeholder}>Graph view not implemented</Text>
-        ) : (
+      {view === 'graph' ? (
+        <ScrollView contentContainerStyle={styles.content}>
+          <GraphVisualizer data={parsed as any} />
+        </ScrollView>
+      ) : (
+        <ScrollView contentContainerStyle={styles.content}>
           <TableVisualizer data={parsed} />
-        )}
-      </ScrollView>
+        </ScrollView>
+      )}
     </View>
   );
 }
