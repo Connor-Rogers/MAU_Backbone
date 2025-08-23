@@ -73,26 +73,57 @@ export default function ChatPane({ messages, prompt, setPrompt, onSubmit, loadin
                     />
                   ));
                 }
-                const isExpanded = expanded[key];
                 const msgs = blk.msgs;
+                const isExpanded = expanded[key];
+                const showToggle = msgs.length > 1; // only if there is something to expand
                 const lastMsg = msgs[msgs.length - 1];
                 return (
                   <View key={key} style={styles.aiBlock}>
-                   <TouchableOpacity
-                     style={styles.groupToggle}
-                     onPress={() => setExpanded(prev => ({ ...prev, [key]: !prev[key] }))}
-                   >
-                     <Text style={styles.toggleText}>{isExpanded ? 'Collapse ▲' : 'Explain ▼'}</Text>
-                   </TouchableOpacity>
-{(isExpanded ? msgs : [lastMsg]).map((m, idx) => (
-  <MessageBubble
-    key={`${m.timestamp}-${m.role}`}
-    msg={m}
-    isUserMessage={false}
-    isConsecutive={idx > 0}
-    formatTimestamp={formatTime}
-  />
-))}
+                   {showToggle && (
+                     <TouchableOpacity
+                       style={styles.groupToggle}
+                       onPress={() => setExpanded(prev => ({ ...prev, [key]: !prev[key] }))}
+                     >
+                       <Text style={styles.toggleText}>{isExpanded ? 'Collapse ▲' : 'Explain ▼'}</Text>
+                     </TouchableOpacity>
+                   )}
+{showToggle && isExpanded ? (
+  <>
+    <View style={styles.explanationContainer}>
+      <ScrollView style={styles.explanationScroll} nestedScrollEnabled>
+        {msgs.slice(0, -1).map((m, idx) => (
+          <MessageBubble
+            key={`${m.timestamp}-${m.role}`}
+            msg={m}
+            isUserMessage={false}
+            isConsecutive={idx > 0}
+            formatTimestamp={formatTime}
+            isExplanation
+            showExplanationHeader={idx === 0}
+            suppressAvatar
+          />
+        ))}
+      </ScrollView>
+    </View>
+    <MessageBubble
+      key={`${lastMsg.timestamp}-${lastMsg.role}`}
+      msg={lastMsg}
+      isUserMessage={false}
+      isConsecutive={false}
+      formatTimestamp={formatTime}
+    />
+  </>
+) : (
+  (showToggle ? [lastMsg] : msgs).map((m, idx) => (
+    <MessageBubble
+      key={`${m.timestamp}-${m.role}`}
+      msg={m}
+      isUserMessage={false}
+      isConsecutive={idx > 0}
+      formatTimestamp={formatTime}
+    />
+  ))
+)}
                    </View>
                  );
                });
@@ -158,4 +189,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   aiBlock: { marginBottom: 10 },
+  explanationContainer: {
+    maxHeight: 200,
+    borderWidth: 1,
+    borderColor: '#2E2E2E',
+    backgroundColor: '#1A1A1A',
+    borderRadius: 12,
+    paddingVertical: 6,
+    marginBottom: 8,
+    marginLeft: 36,
+    marginRight: 8,
+  },
+  explanationScroll: {
+    paddingHorizontal: 4,
+  },
 });

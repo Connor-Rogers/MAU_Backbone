@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, NamedTuple
 from typing_extensions import TypedDict
 
 class ChatMessage(TypedDict):
@@ -8,3 +8,9 @@ class ChatMessage(TypedDict):
     timestamp: str
     content: str
     parts: list[dict]
+
+
+class ToolResult(NamedTuple):
+    view: str
+    result: str
+    tool: str

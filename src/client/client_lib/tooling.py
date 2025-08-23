@@ -5,6 +5,8 @@ from mcp.types import CallToolResult
 
 from client_lib.server_utils import with_client_session
 
+from client_lib.types import ToolResult
+
 TOOL_PATTERN = re.compile(
     r'(?:```(?:json)?\s*)?'                     # optional opening fence  ``` or ```json
     r'\{\s*"name"\s*:\s*"([^"]+)"\s*,'         #   "name": "..."
@@ -60,8 +62,8 @@ class Tooling:
         except Exception as e:
             print(f"Error in call_tool: {e}")
             return None
-    @staticmethod 
-    async def execute_tool_from_text(text: str) -> list[Tuple[str, str, str]]:
+    @staticmethod
+    async def execute_tool_from_text(text: str) -> list[ToolResult]:
         """
         Detects tool calls in the given text, executes them, and returns the results.
 
