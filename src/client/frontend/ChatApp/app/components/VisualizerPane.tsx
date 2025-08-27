@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import TableVisualizer from './TableVisualizer';
 import GraphVisualizer from './GraphVisualizer';
@@ -7,9 +7,46 @@ import Message from '../constants/Message';
 
 // Show the last tool message’s visualization based on its `view` property
 export default function VisualizerPane({ messages }: { messages: Message[] }) {
-  // Find last tool message
-  const toolMsgs = messages.filter(m => m.role === 'tool');
-  if (!toolMsgs.length) {
+  // Track last tool message id/content we've processed to avoid reparsing every parent re-render (e.g. typing in prompt)
+  const [parsedData, setParsedData] = useState<any>(null);
+  const [view, setView] = useState<string | null>(null);
+  const lastProcessedRef = useRef<string | null>(null); // timestamp-role or hash of content
+
+  // Derive the latest tool message (scan from end for efficiency)
+  const lastTool: Message | undefined = useMemo(() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === 'tool') return messages[i];
+    }
+    return undefined;
+  }, [messages]);
+
+  // Only (re)parse when the last tool message object actually changes (timestamp+role+content+view)
+  useEffect(() => {
+    if (!lastTool) return;
+    const identity = `${lastTool.timestamp}|${lastTool.role}|${lastTool.view}|${lastTool.content?.length}`; // cheap identity; length change implies content change
+    if (identity === lastProcessedRef.current) return; // nothing new
+
+    if (lastTool.view == null) {
+      // Clear view if tool intentionally sends null
+      setView(null);
+      setParsedData(null);
+      lastProcessedRef.current = identity;
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(lastTool.content);
+      setParsedData(parsed);
+      setView(lastTool.view as any);
+      lastProcessedRef.current = identity;
+    } catch {
+      setParsedData({ __error: true });
+      setView('error');
+      lastProcessedRef.current = identity;
+    }
+  }, [lastTool]);
+
+  if (!lastTool) {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.content}>
@@ -18,31 +55,31 @@ export default function VisualizerPane({ messages }: { messages: Message[] }) {
       </View>
     );
   }
-  const lastTool = toolMsgs[toolMsgs.length - 1];
-  // If view is null, do not render anything
-  if (lastTool.view == null) {
-    return null;
+
+  if (view == null) {
+    return null; // tool suppressed visualization
   }
-  let parsed: Array<Record<string, any>> = [];
-  try {
-    parsed = JSON.parse(lastTool.content);
-  } catch {
+
+  if (view === 'error' || (parsedData && parsedData.__error)) {
     return (
       <View style={styles.container}>
-        <Text style={styles.placeholder}>Invalid tool data</Text>
+        <ScrollView contentContainerStyle={styles.content}>
+          <Text style={styles.placeholder}>Invalid tool data</Text>
+        </ScrollView>
       </View>
     );
   }
-  const view = lastTool.view;
+
   return (
     <View style={styles.container}>
       {view === 'graph' ? (
         <ScrollView contentContainerStyle={styles.content}>
-          <GraphVisualizer data={parsed as any} />
+          {/* Use a stable key based on tool message timestamp so graph only rebuilds when new tool data arrives */}
+          <GraphVisualizer key={lastTool.timestamp} data={parsedData as any} />
         </ScrollView>
       ) : (
         <ScrollView contentContainerStyle={styles.content}>
-          <TableVisualizer data={parsed} />
+          <TableVisualizer data={Array.isArray(parsedData) ? parsedData : []} />
         </ScrollView>
       )}
     </View>

@@ -17,18 +17,19 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from client_lib.cot import ChainOfThought
 from client_lib.database import Database, get_db
-from client_lib.sandbox import SandboxState
+from client_lib.sandbox import SandboxState, save_sandbox_state, load_sandbox_state
 from client_lib.chat import to_chat_message
-from client_lib.reasoning import ReasoningGraph
+from client_lib.reasoning import ReasoningGraph, load_reasoning_graph, save_reasoning_graph
 
 
 # 'if-token-present' means nothing will be sent (and the example will work) if you don't have logfire configured
 logfire.configure(send_to_logfire="if-token-present")
 THIS_DIR = Path(__file__).parent
-
-# Global state
-reasoning_graph = ReasoningGraph()
+REASONING_DIR = THIS_DIR / "reasoning_state"
+SANDBOX_DIR = THIS_DIR / "sandbox_state"
+# Global state (per-session objects)
 sandbox_store: dict[str, SandboxState] = defaultdict(SandboxState)
+reasoning_graph_store: dict[str, ReasoningGraph] = {}
 
 
 @asynccontextmanager
@@ -47,20 +48,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/")
-async def index() -> FileResponse:
-    return FileResponse((THIS_DIR / "chat_app.html"), media_type="text/html")
-
-
-@app.get("/chat_app.ts")
-async def main_ts() -> FileResponse:
-    """Get the raw typescript code, it's compiled in the browser, forgive me."""
-    return FileResponse((THIS_DIR / "chat_app.ts"), media_type="text/plain")
-
-
 @app.get("/chat/")
-async def get_chat(database: Database = Depends(get_db)) -> Response:
+async def get_chat(
+    session_id: str = fastapi.Query("default"),
+    database: Database = Depends(get_db),
+) -> Response:
     # Get messages from the database
     messages: list[ModelRequest | ModelResponse] = await database.get_messages()
 
@@ -80,8 +72,16 @@ async def get_chat(database: Database = Depends(get_db)) -> Response:
 
     # 3) convert each dataclass back into the client‐facing shape
     #    (you already have `to_chat_message` for that)
+    # Attempt to load sandbox to recover latest view for this session
+    if session_id in sandbox_store:
+        sb = sandbox_store[session_id]
+    else:
+        sb = load_sandbox_state(THIS_DIR / "sandbox_state", session_id) or SandboxState()
+        sandbox_store[session_id] = sb
+
+    latest_view = sb.latest_view
     out = b"\n".join(
-        json.dumps(to_chat_message(msg)).encode("utf-8") for msg in messages
+        json.dumps(to_chat_message(msg, latest_view)).encode("utf-8") for msg in messages
     )
     return Response(out, media_type="text/plain")
 
@@ -104,28 +104,44 @@ async def post_chat(
             + b"\n"
         )
 
-        # 🧠 Use per-session sandbox
+        # Use per-session sandbox (load from disk if first time in this process)
+        if session_id not in sandbox_store:
+            loaded_sb = load_sandbox_state(SANDBOX_DIR, session_id)
+            sandbox_store[session_id] = loaded_sb if loaded_sb else SandboxState()
         sandbox = sandbox_store[session_id]
 
-        cot = ChainOfThought(
-            query=prompt,
-            sandbox=sandbox,
-            reasoning_graph=reasoning_graph
-        )
-        await cot.run_cot(max_iters=10)
+        # Load or create reasoning graph for this session
+        rg = reasoning_graph_store.get(session_id)
+        if rg is None:
+            loaded = load_reasoning_graph(REASONING_DIR, session_id)
+            if loaded is not None:
+                rg = loaded
+            else:
+                # Create a brand-new graph when none exists
+                rg = ReasoningGraph()
+            # keep the in-memory store up to date
+            reasoning_graph_store[session_id] = rg
+
+        cot = ChainOfThought(query=prompt, sandbox=sandbox, reasoning_graph=rg)
+        await cot.run_cot()
+
+        # Persist whatever graph the CoT used/updated
+        if cot.reasoning_graph is not None:
+            save_reasoning_graph(REASONING_DIR, session_id, cot.reasoning_graph)
 
         for part in cot.chain:
-            view = None
-            if isinstance(part, tuple):
-                part, view = part
-
+            if isinstance(part, tuple):  # safety
+                part, _ = part
             blob: bytes = ModelMessagesTypeAdapter.dump_json([part])
             await database.add_messages(blob)
-
             if part == cot.chain[0]:
-                continue  # Skip echo of query
+                continue  # Skip echo (initial user request already streamed)
+            yield json.dumps(to_chat_message(part, sandbox.latest_view)).encode("utf-8") + b"\n"
+            # Incremental sandbox persistence (resilient to refresh mid-stream)
+            save_sandbox_state(SANDBOX_DIR, session_id, sandbox)
 
-            yield json.dumps(to_chat_message(part, view)).encode("utf-8") + b"\n"
+        # Persist sandbox state after processing (messages + latest_view)
+        save_sandbox_state(SANDBOX_DIR, session_id, sandbox)
 
     return StreamingResponse(stream_messages(), media_type="text/plain")
 

@@ -1,5 +1,15 @@
-from typing import List, Tuple
+"""
+Chain of Though Modial
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum, auto
+from typing import List, Tuple, Optional, Set, Dict, Any
 import re
+import json
+import logfire
 
 from pydantic_ai.messages import (
     ModelRequest,
@@ -8,9 +18,6 @@ from pydantic_ai.messages import (
     UserPromptPart,
     TextPart,
 )
-
-
-import logfire
 from mcp.types import CallToolResult, TextContent
 
 from client_lib.reasoning import ReasoningGraph
@@ -22,48 +29,247 @@ from client_lib.sandbox import SandboxState
 COT_END_PROMPT = "[END OF REASONING]"
 
 
+# ______Public API Types_______
+
+class Mode(Enum):
+    """High-level mode of the CoT controller."""
+    INTERACTIVE = auto()     # normal: model may call tools
+    FINALIZING = auto()      # produce final answer; tools are disallowed
+
+
+@dataclass(frozen=True)
+class CoTConfig:
+    """Tunable limits and knobs."""
+    max_iters: int = 5
+    max_tool_steps: int = 5
+    max_finalize_nudges: int = 2
+
+
+@dataclass
+class CoTState:
+    """Mutable state tracked across the run."""
+    iteration: int = 0
+    tools_run: int = 0
+    mode: Mode = Mode.INTERACTIVE
+    finalize_nudges: int = 0
+    executed_tool_calls: Set[str] = field(default_factory=set)
+    last_tool_id: Optional[str] = None
+
+
+# ______Chain of Thought______
+
 class ChainOfThought:
-    def __init__(
-        self, query: str, sandbox: SandboxState, reasoning_graph: ReasoningGraph
-    ):
+    """
+    ChainOfThought is a class designed to facilitate step-by-step reasoning for solving complex queries. 
+    It interacts with a sandbox environment, a reasoning graph, and a set of tools to iteratively generate 
+    solutions or final answers. The class is designed to handle tool execution, manage reasoning states, 
+    and persist traces of the reasoning process.
+    
+    Attributes:
+        query (str): The user-provided query or problem description.
+        sandbox (SandboxState): The sandbox environment that maintains the state of the reasoning process.
+        reasoning_graph (ReasoningGraph): A graph structure used to manage reasoning paths and traces.
+        config (CoTConfig): Configuration options for the reasoning process, such as maximum iterations.
+        chain (List[ModelMessage]): A list of messages representing the reasoning chain.
+        tool_summaries (Optional[str]): A summary of available tools, fetched dynamically.
+        plan (Optional[List[str]]): An optional plan or hint for solving the query.
+        expected_tool_steps (int): The number of tool steps expected based on the plan.
+    """
+    def __init__(self, query: str, sandbox: SandboxState, reasoning_graph: ReasoningGraph, config: Optional[CoTConfig] = None):
+        """
+        Initializes a new instance of the class.
+        Args:
+            query (str): The query string provided by the user.
+            sandbox (SandboxState): The current sandbox state for managing the session.
+            reasoning_graph (ReasoningGraph): The reasoning graph used for generating plans and reasoning steps.
+            config (Optional[CoTConfig]): Optional configuration for the instance. Defaults to a new CoTConfig instance.
+        Notes:
+            - Resets the sandbox if the query topic differs from the current topic.
+            - Ensures the user request is seeded exactly once in the sandbox messages.
+        """
         self.query = query
-        self.view = None
         self.sandbox = sandbox
-        self.tool_summaries = None
-        self.chain: list[ModelMessage] = []
-
-        # rg planning
         self.reasoning_graph = reasoning_graph
-        self.plan = self.reasoning_graph.get_plan(query)
-        self.expected_tool_steps = 0 if not self.plan else len(self.plan)
+        self.config = config or CoTConfig()
 
+        self.chain: List[ModelMessage] = []
+        self.tool_summaries: Optional[str] = None
+
+        # Plan is optional; used only for hints. Clean it to avoid None/invalid entries.
+        raw_plan = self.reasoning_graph.get_plan(query)
+        cleaned_plan: Optional[List[str]] = None
+        if raw_plan:
+            try:
+                cleaned = [str(p).strip() for p in raw_plan if p is not None and str(p).strip()]
+                cleaned_plan = cleaned or None
+            except Exception:
+                cleaned_plan = None
+        self.plan: Optional[List[str]] = cleaned_plan
+        self.expected_tool_steps: int = 0 if not self.plan else len(self.plan)
+
+        # Topic handling
         if not sandbox.is_same_topic(query):
             sandbox.reset(query)
 
-        # Seed the user query if not already present
-        if not any(
-            isinstance(m, ModelRequest) and m.parts[0].content == query
-            for m in self.sandbox.messages
-        ):
+        # Ensure the user request is seeded exactly once
+        if not any(isinstance(m, ModelRequest) and m.parts and m.parts[0].content == query for m in sandbox.messages):
             user_req = ModelRequest(parts=[UserPromptPart(content=query)])
-            self.chain.append(user_req)
-            self.sandbox.extend(user_req)
+            self._append(user_req)
 
-    async def _generate_system_prompt(self, problem_description: str) -> str:
+    # ______ Public entrypoint ______
+
+    async def run_cot(self) -> None:
+        """
+        Executes the Chain-of-Thought (CoT) reasoning process for the given query.
+
+        This method orchestrates an iterative reasoning process, where the system
+        generates responses, evaluates them, and optionally invokes tools to refine
+        its understanding or reach a conclusion. The process continues until a final
+        answer is determined, a maximum number of iterations is reached, or other
+        termination conditions are met.
+
+        The method operates in two modes:
+        1. Interactive Mode: The system attempts to detect and execute tool calls
+           based on the model's response.
+        2. Finalizing Mode: The system avoids tool calls and focuses on summarizing
+           or finalizing the response.
+
+        Key Steps:
+        - Builds the initial system prompt based on the query.
+        - Iteratively generates model responses and evaluates them.
+        - Detects and executes tool calls when appropriate.
+        - Handles duplicate tool calls, tool execution failures, and mode transitions.
+        - Finalizes the reasoning process when a valid final answer is detected or
+          when termination conditions are met.
+
+        Raises:
+            RuntimeError: If the maximum number of iterations is exceeded without
+                          reaching a valid conclusion.
+
+        Logs:
+            - Iteration start, including the current mode and tools run.
+            - Model responses and reasoning blocks.
+            - Tool execution results and mode transitions.
+
+        Returns:
+            None
+        """
+        base_system = await self._build_system_prompt(self.query)
+        state = CoTState()
+
+        for state.iteration in range(self.config.max_iters):
+            system_prompt = self._attach_turn_state(base_system, state)
+            logfire.debug("cot_iteration_start", iter=state.iteration, mode=state.mode.name, tools_run=state.tools_run)
+
+            text = await self._stream_model_text(system_prompt)
+            logfire.info("cot_model_response", text=text)
+
+            if self._contains_final_answer(text):
+                final_resp = self._emit_final_answer(text)
+                self._persist_trace(final_resp)
+                return
+
+            if state.mode is Mode.FINALIZING:
+                # In finalize mode we forbid more tool calls; keep nudging
+                if self._looks_like_tool_json(text):
+                    self._nudge_no_tools_in_finalize(state)
+                    if state.finalize_nudges > self.config.max_finalize_nudges:
+                        self._force_summarized_exit(text)
+                        return
+                    continue
+                self._append_model_text(text)
+                continue
+
+            # Normal (interactive) mode: try to find a tool call
+            detected = Tooling.detect_tool_calls(text)
+            if not detected:
+                self._nudge_need_tool_or_final()
+                continue
+
+            # Preserve explanation and tool JSON separately so UI can show explanation distinctly.
+            try:
+                import re as _re
+                # Find first JSON tool call location
+                m = _re.search(r'`?\{\s*"name"\s*:\s*"', text)
+                if m:
+                    prefix = text[:m.start()].strip('\n ')
+                    rest = text[m.start():].strip()
+                    # If prefix has substantive content, append as its own reasoning message
+                    if prefix and len(prefix) > 3:
+                        self._append_model_text(prefix)
+                    # Always append the JSON (and any trailing narrative) as a second message so users see the call
+                    if rest:
+                        self._append_model_text(rest)
+                else:
+                    cleaned_block = text.strip()
+                    if cleaned_block:
+                        self._append_model_text(cleaned_block)
+            except Exception:
+                # Fallback: append whole text
+                try:
+                    self._append_model_text(text.strip())
+                except Exception:
+                    pass
+
+            tool_name, arguments = detected[0]
+            tool_id = self._canonical_tool_id(tool_name, arguments)
+
+            if self._is_duplicate_tool_call(tool_id, state):
+                self._enter_finalize_due_to_duplicate(state, tool_name)
+                continue
+
+            # Execute exactly one tool call
+            success = await self._execute_tool(tool_name, arguments, tool_id, state)
+            if not success:
+                self._append_model_note("Tool returned no result; attempt final answer or different tool.")
+                continue
+
+            # Step accounting and mode transitions
+            state.tools_run += 1
+            if state.tools_run >= self.config.max_tool_steps:
+                self._enter_finalize_due_to_cap(state)
+                continue
+
+        # Exceeded iterations without a sentinel
+        self._dump_history_and_raise()
+
+    # ______ Prompt construction ______
+
+    async def _build_system_prompt(self, problem_description: str) -> str:
+        """
+        Constructs a system prompt string based on the provided problem description,
+        available tools, and an optional solution plan.
+
+        This method generates a detailed prompt for a reasoning agent, including
+        instructions on how to use tools, format tool calls, and handle tool responses.
+        It ensures the agent follows a step-by-step reasoning process and adheres to
+        the user's instructions.
+
+        Args:
+            problem_description (str): A description of the user's problem or query.
+
+        Returns:
+            str: The constructed system prompt string.
+
+        Notes:
+            - If a solution plan (`self.plan`) is available, it is included as a hint.
+            - If tool summaries (`self.tool_summaries`) are not preloaded, they are
+              fetched asynchronously using the `Tooling.list_tools()` method.
+            - The prompt includes instructions for tool usage, response handling, and
+              when to terminate reasoning.
+        """
         plan_hint = ""
         if self.plan:
-            plan_hint = (
-                "A typical solution path for this kind of query is:\n"
-                + " → ".join(self.plan)
-                + "\n"
-            )
+            try:
+                plan_hint = "A typical solution path for this kind of query is:\n" + " → ".join(
+                    [p for p in self.plan if isinstance(p, str) and p]
+                ) + "\n"
+            except Exception:
+                plan_hint = ""
 
         if self.tool_summaries is None:
             tools = await Tooling.list_tools()
-            self.tool_summaries = (
-                "\n".join(f"{t.name}: {t.description}" for t in tools)
-                or "No tools available."
-            )
+            self.tool_summaries = "\n".join(f"{t.name}: {t.description}" for t in tools) or "No tools available."
 
         return (
             "You are a careful, step-by-step reasoning agent.\n"
@@ -72,116 +278,285 @@ class ChainOfThought:
             f"{plan_hint}"
             "When a tool is required:\n"
             "  - First, explain *why* the tool is needed.\n"
-            "  - Then, format your tool call as JSON on a new line:\n"
-            '{"name": TOOL_NAME, "arguments": {...}}\n\n'
-            "Wait for the tool’s output before continuing reasoning.\n"
-            f"Always try to follow the user’s instructions faithfully.\n"
-            f'When you are done, give the final answer and end with "{COT_END_PROMPT}".\n\n'
+            "  - Then, output ONE inline backticked JSON object exactly like: \n"
+            "    `{\"name\": \"tool_name\", \"arguments\": {...}}`\n"
+            "    (Do NOT use triple backtick code fences; use a single pair of backticks.)\n\n"
+            "Tools will return JSON responses. Wait for the tool’s (ModelResponse) output before continuing.\n"
+            "Follow the user’s instructions faithfully.\n"
+            f'If the tool call directly answers the user, give the final answer and end with "{COT_END_PROMPT}".\n'
+            "Final answers should always be concise and to the point and summarize the operations performed."
+            f'Keep reasoning only for multi-tool queries. Always end with "{COT_END_PROMPT}".\n\n'
             "USER PROBLEM:\n"
             f"{problem_description}"
         )
 
-    async def run_cot(self, max_iters: int = 5):
-        system_str = await self._generate_system_prompt(self.query)
-        tool_steps_done = 0
-        for iteration in range(max_iters):
-            logfire.debug(f"--- Iteration {iteration + 1} ---")
-            buffer: list[str] = []
-            prev_chunk = ""
-
-            async with agent.run_stream(
-                system_str, message_history=self.sandbox.messages
-            ) as stream:
-                async for part in stream.stream(debounce_by=0.01):
-                    if isinstance(part, CallToolResult):
-                        chunk = "".join(
-                            c.text for c in part.content if isinstance(c, TextContent)
-                        )
-                    else:
-                        chunk = str(part)
-
-                    delta = (
-                        chunk[len(prev_chunk) :]
-                        if chunk.startswith(prev_chunk)
-                        else chunk
-                    )
-                    buffer.append(delta)
-                    prev_chunk = chunk
-
-            text = "".join(buffer)
-            logfire.info(f"Model response: {text}")
-
-            # Handle final output
-            if COT_END_PROMPT in text:
-                end_idx = text.find(COT_END_PROMPT)
-                final_text = text[:end_idx].rstrip()
-
-                final_resp = ModelResponse(
-                    parts=[TextPart(content=final_text)],
-                    model_name=f"ChainOfThought:Model:{agent.name}",
-                    timestamp=stream.timestamp(),
-                )
-                self.chain.append(final_resp)
-                self.sandbox.extend(final_resp, view=self.view)
-                tool_path = [
-                    (node.model_name.split(":")[-1], node.parts[0].content)
-                    for node in self.chain
-                    if isinstance(node, ModelResponse)
-                    and node.model_name.startswith("ChainOfThought:Tool:")
-                ]
-                final_answer = self.chain[-1].parts[0].content if self.chain else ""
-
-                self.reasoning_graph.add_trace(
-                    query=self.query,
-                    tool_calls=[(name, {"raw_text": args}) for name, args in tool_path],
-                    final_answer=final_answer,
-                )
-
-                return  # Terminate
-
-            # Try to parse tool explanation + JSON
-            tool_match = re.search(
-                r"(?P<explanation>.*?)\n*(?P<json>\{.*\})", text, re.DOTALL
+    @staticmethod
+    def _attach_turn_state(base_system: str, state: CoTState) -> str:
+        """
+        Attaches the turn state information to the base system string.
+        This method appends a formatted string representation of the current state
+        to the provided base system string. The appended information includes the
+        `finalize_mode` status and the number of tools run. The behavior differs
+        based on the mode of the provided `CoTState`.
+        Args:
+            base_system (str): The base system string to which the state information
+                will be appended.
+            state (CoTState): The current state object containing the mode and tools
+                run information.
+        Returns:
+            str: The base system string with the appended state information. The
+            appended string provides instructions based on the mode:
+                - If `state.mode` is `Mode.FINALIZING`, it instructs to provide the
+                final answer and avoid calling any tools.
+                - Otherwise, it instructs to either provide an answer or output a
+                tool call JSON after a brief justification.
+        """
+        if state.mode is Mode.FINALIZING:
+            return (
+                base_system
+                + f"\n(STATE: finalize_mode=true, tools_run={state.tools_run}). "
+                  f"Provide the final answer now and end with {COT_END_PROMPT}. "
+                  "Do NOT call any tools."
             )
-            if not tool_match:
-                logfire.warning("No tool call detected; retrying loop.")
-                continue
-
-            reasoning = tool_match.group("explanation").strip()
-            tool_json = tool_match.group("json").strip()
-
-            if reasoning:
-                reasoning_resp = ModelResponse(
-                    parts=[TextPart(content=reasoning)],
-                    model_name=f"ChainOfThought:Model:{agent.name}",
-                    timestamp=stream.timestamp(),
-                )
-                self.chain.append(reasoning_resp)
-                self.sandbox.extend(reasoning_resp, view=self.view)
-
-            tool_result: List[Tuple[str, str, str]] = (
-                await Tooling.execute_tool_from_text(tool_json)
-            )
-            if not tool_result:
-                logfire.warning("Tool execution failed or returned no result.")
-                continue
-
-            tool_steps_done += 1
-            if tool_steps_done >= self.expected_tool_steps:
-                logfire.info("Early stopping based on known reasoning path.")
-                return
-
-            for view, result, tool in tool_result:
-                tool_resp = ModelResponse(
-                    parts=[TextPart(content=result)],
-                    model_name=f"ChainOfThought:Tool:{tool}",
-                    timestamp=stream.timestamp(),
-                )
-                self.view = view
-                self.chain.append(tool_resp)
-                self.sandbox.extend(tool_resp, view=view)
-
-        logfire.warning(
-            "Chain of thought exceeded max iterations without reaching end marker."
+        return (
+            base_system
+            + f"\n(STATE: finalize_mode=false, tools_run={state.tools_run}). "
+              f"If you can answer, end with {COT_END_PROMPT}. Otherwise output ONE tool call JSON after a brief justification."
         )
-        raise RuntimeError("Exceeded max iterations without a final answer.")
+
+    # ----------------------------- Model I/O helpers -----------------------------
+
+    async def _stream_model_text(self, system_prompt: str) -> str:
+        """
+        Asynchronously streams text generated by a model based on a given system prompt.
+
+        This method interacts with an agent to stream text responses in real-time. It processes
+        the streamed content, appending new text chunks to a buffer, and returns the complete
+        generated text once the stream ends.
+
+        Args:
+            system_prompt (str): The initial prompt provided to the model to generate text.
+
+        Returns:
+            str: The complete text generated by the model after processing the stream.
+
+        Notes:
+            - The method uses a debounce mechanism to process streamed parts with minimal delay.
+            - It handles different types of streamed content, including tool call results and
+              plain text parts.
+        """
+        buffer: List[str] = []
+        prev_chunk = ""
+
+        async with agent.run_stream(system_prompt, message_history=self.sandbox.messages) as stream:
+            async for part in stream.stream(debounce_by=0.01):
+                if isinstance(part, CallToolResult):
+                    chunk = "".join(c.text for c in part.content if isinstance(c, TextContent))
+                else:
+                    chunk = str(part)
+                delta = chunk[len(prev_chunk):] if chunk.startswith(prev_chunk) else chunk
+                buffer.append(delta)
+                prev_chunk = chunk
+
+        return "".join(buffer)
+
+    # ______ Finalization Utills ______
+
+    @staticmethod
+    def _contains_final_answer(text: str) -> bool:
+        """
+        Checks if the given text contains a final answer by looking for the end prompt.
+        
+        Args:
+            text (str): The text to check.
+        
+        Returns:
+            bool: True if the text contains a final answer, False otherwise.
+        """
+        return COT_END_PROMPT in text
+
+    @staticmethod
+    def _looks_like_tool_json(text: str) -> bool:
+        """
+        Checks if the given text looks like a tool JSON by searching for the expected structure.
+
+        Args:
+            text (str): The text to check.
+
+        Returns:
+            bool: True if the text looks like a tool JSON, False otherwise.
+        """
+        return re.search(r'\{\s*"name"\s*:\s*', text) is not None
+
+    def _emit_final_answer(self, text: str) -> ModelResponse:
+        """
+        Extract and append the final answer (without the sentinel).
+
+        Args:
+            text (str): The text containing the final answer.
+
+        Returns:
+            ModelResponse: The model response containing the final answer.
+        """
+        end_idx = text.find(COT_END_PROMPT)
+        final_text = text[:end_idx].rstrip()
+        final_resp = ModelResponse(
+            parts=[TextPart(content=final_text)],
+            model_name=f"ChainOfThought:Model:{agent.name}",
+            timestamp=datetime.now(timezone.utc),
+        )
+        self._append(final_resp)
+        return final_resp
+
+    def _nudge_no_tools_in_finalize(self, state: CoTState) -> None:
+        """
+        Nudges the model not to use tools in finalize mode.
+
+        Args:
+            state (CoTState): The current state of the Chain of Thought.
+        """
+        state.finalize_nudges += 1
+        self._append_model_note(f"Do not call tools in finalize mode. Provide final answer ending with {COT_END_PROMPT}.")
+
+    def _force_summarized_exit(self, text: str) -> None:
+        """
+        Forces a summarized exit by appending a model note with the provided text.
+
+        Args:
+            text (str): The text to include in the model note.
+        """
+        self._append_model_note("Final answer unavailable; summarizing best effort. " + text)
+
+    def _nudge_need_tool_or_final(self) -> None:
+        """
+        Nudges the model to either provide a final answer or use a tool.
+
+        Args:
+            state (CoTState): The current state of the Chain of Thought.
+        """
+        self._append_model_note(f"No tool JSON detected. Either answer with {COT_END_PROMPT} or output a single tool JSON.")
+
+    def _enter_finalize_due_to_duplicate(self, state: CoTState, tool_name: str) -> None:
+        """
+        Enters finalize mode due to a duplicate tool call.
+
+        Args:
+            state (CoTState): The current state of the Chain of Thought.
+        """
+        state.mode = Mode.FINALIZING
+        self._append_model_note(f"Duplicate tool call blocked ({tool_name}). Move to final answer with {COT_END_PROMPT}.")
+
+    def _enter_finalize_due_to_cap(self, state: CoTState) -> None:
+        """
+        Enters finalize mode due to reaching the maximum tool steps.
+
+        Args:
+            state (CoTState): The current state of the Chain of Thought.
+        """
+        state.mode = Mode.FINALIZING
+        self._append_model_note(f"Max tool steps reached. Provide final answer ending with {COT_END_PROMPT}.")
+
+    # ______ Tool execution ______
+
+    @staticmethod
+    def _canonical_tool_id(tool_name: str, arguments: Dict[str, Any]) -> str:
+        """
+        Stable identifier for duplicate detection.
+
+        Args:
+            tool_name (str): The name of the tool.
+            arguments (Dict[str, Any]): The arguments passed to the tool.
+        
+        Returns:
+            str: A stable identifier for the tool call.
+        """
+        try:
+            canonical_args = json.dumps(arguments, sort_keys=True, separators=(",", ":"))
+        except Exception:
+            canonical_args = str(arguments)
+        return f"{tool_name}:{canonical_args}"
+
+    @staticmethod
+    def _preserve_reasoning_block(text: str) -> None:  # legacy no-op retained for compatibility
+        return
+
+    def _is_duplicate_tool_call(self, tool_id: str, state: CoTState) -> bool:
+        """
+        Check if the tool call is a duplicate.
+
+        Args:
+            tool_id (str): The ID of the tool call.
+            state (CoTState): The current state of the Chain of Thought.
+
+        Returns:
+            bool: True if the tool call is a duplicate, False otherwise.
+        """
+        return tool_id in state.executed_tool_calls or tool_id == state.last_tool_id
+
+    async def _execute_tool(self, tool_name: str, arguments: Dict[str, Any], tool_id: str, state: CoTState) -> bool:
+        """
+        Execute one tool and append its result(s). Returns True if any results were produced.
+        """
+        # Minimal JSON string expected by your executor
+        try:
+            canonical_args = tool_id.split(":", 1)[1]
+            minimal_json = f'{{"name": "{tool_name}", "arguments": {canonical_args}}}'
+        except Exception:
+            # Fallback if parsing somehow fails
+            minimal_json = json.dumps({"name": tool_name, "arguments": arguments})
+
+        tool_result: List[Tuple[str, str, str]] = await Tooling.execute_tool_from_text(minimal_json)
+        state.executed_tool_calls.add(tool_id)
+        state.last_tool_id = tool_id
+
+        if not tool_result:
+            return False
+
+        for view, result, tool_used in tool_result:
+            tool_resp = ModelResponse(
+                parts=[TextPart(content=result)],
+                model_name=f"ChainOfThought:Tool:{tool_used}",
+                timestamp=datetime.now(timezone.utc),
+            )
+            self._append(tool_resp, view=view)
+
+        return True
+
+    # ______ Persistence & Utility ______
+
+    def _persist_trace(self, final_resp: ModelResponse) -> None:
+        """
+        Persist a minimal, readable trace: only Tool responses, plus the final answer.
+        """
+        tool_path = [
+            (node.model_name.split(":")[-1], node.parts[0].content)
+            for node in self.chain
+            if isinstance(node, ModelResponse) and node.model_name.startswith("ChainOfThought:Tool:")
+        ]
+        self.reasoning_graph.add_trace(
+            query=self.query,
+            tool_calls=[(name, {"raw_text": args}) for name, args in tool_path],
+            final_answer=final_resp.parts[0].content,
+        )
+
+    def _append(self, msg: ModelMessage, view: Optional[str] = None) -> None:
+        """Append a message to local chain and sandbox in a single place."""
+        self.chain.append(msg)
+        self.sandbox.extend(msg, view=view)
+
+    def _append_model_text(self, text: str) -> None:
+        self._append(ModelResponse(parts=[TextPart(content=text)],
+                                   model_name=f"ChainOfThought:Model:{agent.name}",
+                                   timestamp=datetime.now(timezone.utc),))
+
+    def _append_model_note(self, note: str) -> None:
+        self._append(ModelResponse(parts=[TextPart(content=note)],
+                                   model_name=f"ChainOfThought:Model:{agent.name}",
+                                   timestamp=datetime.now(timezone.utc),))
+
+    def _dump_history_and_raise(self) -> None:
+        logfire.warning("cot_no_final_answer", max_iters=self.config.max_iters)
+        dump = "\n".join(m.parts[0].content for m in self.sandbox.messages if getattr(m, "parts", None))
+        with open("sandbox_messages_dump.txt", "w") as f:
+            f.write(dump)
+        raise RuntimeError("Exceeded max iterations without final answer sentinel.")

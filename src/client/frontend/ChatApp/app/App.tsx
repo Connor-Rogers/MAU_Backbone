@@ -40,10 +40,37 @@ export default function App() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [shiftPressed, setShiftPressed] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+
+  // Initialize or restore session id (persist across reloads for web)
+  useEffect(() => {
+    const gen = () => {
+      // Prefer crypto.randomUUID if available
+      // @ts-ignore - RN web may not have full typing
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+      return 'sess-' + Math.random().toString(36).slice(2, 12);
+    };
+    if (isWeb) {
+      try {
+        const stored = window.localStorage.getItem('arcane_session_id');
+        if (stored) {
+          setSessionId(stored);
+          return;
+        }
+        const newId = gen();
+        window.localStorage.setItem('arcane_session_id', newId);
+        setSessionId(newId);
+        return;
+      } catch {
+        // Fallback to ephemeral
+      }
+    }
+    setSessionId(gen());
+  }, [isWeb]);
 
   useEffect(() => {
-    fetchMessages();
-  }, []);
+    if (sessionId) fetchMessages();
+  }, [sessionId]);
 
   useEffect(() => {
     // Scroll to bottom whenever messages change
@@ -53,9 +80,10 @@ export default function App() {
   }, [messages]);
 
   async function fetchMessages() {
+    if (!sessionId) return;
     setApiError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/chat/`);
+      const response = await fetch(`${API_BASE_URL}/chat/?session_id=${encodeURIComponent(sessionId)}`);
       await handleFetchResponse(response);
     } catch (error) {
       console.error('Fetch error:', error);
@@ -117,16 +145,18 @@ export default function App() {
 
   async function onSubmit() {
     if (!prompt.trim()) return;
+    if (!sessionId) return; // wait for session init
     
     setLoading(true);
     setApiError(null);
     try {
       const formData = new FormData();
       formData.append('prompt', prompt);
+      formData.append('session_id', sessionId);
 
       setPrompt('');
 
-      const response = await fetch(`${API_BASE_URL}/chat/`, {
+  const response = await fetch(`${API_BASE_URL}/chat/`, {
         method: 'POST',
         body: formData,
       });
