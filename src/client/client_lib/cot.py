@@ -43,6 +43,9 @@ class CoTConfig:
     max_iters: int = 5
     max_tool_steps: int = 5
     max_finalize_nudges: int = 2
+    # If True, after any successful tool execution we immediately switch to FINALIZING mode
+    # so the model is forced to synthesize a final answer instead of repeatedly invoking tools.
+    auto_finalize_after_tool: bool = False  # disabled by default to let model view tool output itself
 
 
 @dataclass
@@ -54,6 +57,7 @@ class CoTState:
     finalize_nudges: int = 0
     executed_tool_calls: Set[str] = field(default_factory=set)
     last_tool_id: Optional[str] = None
+    justification_nudges: int = 0  # times we've asked model to justify tool call
 
 
 # ______Chain of Thought______
@@ -186,39 +190,73 @@ class ChainOfThought:
                 self._nudge_need_tool_or_final()
                 continue
 
-            # Preserve explanation and tool JSON separately so UI can show explanation distinctly.
-            try:
-                import re as _re
-                # Find first JSON tool call location
-                m = _re.search(r'`?\{\s*"name"\s*:\s*"', text)
-                if m:
-                    prefix = text[:m.start()].strip('\n ')
-                    rest = text[m.start():].strip()
-                    # If prefix has substantive content, append as its own reasoning message
-                    if prefix and len(prefix) > 3:
-                        self._append_model_text(prefix)
-                    # Always append the JSON (and any trailing narrative) as a second message so users see the call
-                    if rest:
-                        self._append_model_text(rest)
-                else:
-                    cleaned_block = text.strip()
-                    if cleaned_block:
-                        self._append_model_text(cleaned_block)
-            except Exception:
-                # Fallback: append whole text
-                try:
-                    self._append_model_text(text.strip())
-                except Exception:
-                    pass
-
             tool_name, arguments = detected[0]
             tool_id = self._canonical_tool_id(tool_name, arguments)
 
+            # Enforce presence of explanation BEFORE JSON (at least a short sentence)
+            try:
+                import re as _re
+                m_first = _re.search(r'`?\{\s*"name"\s*:\s*"', text)
+                prefix_len = 0
+                if m_first:
+                    prefix_raw = text[:m_first.start()].strip()
+                    prefix_len = len(prefix_raw)
+                if m_first and prefix_len < 12 and state.justification_nudges < 3:
+                    state.justification_nudges += 1
+                    self._append_model_note(
+                        "Provide a brief natural language justification (one sentence) before the tool JSON call explaining why the tool is needed, then repeat the tool JSON."
+                    )
+                    continue  # ask model to try again before executing tool
+            except Exception:
+                pass
+
+            # If duplicate tool call, don't re-add the reasoning block (which would just repeat)
             if self._is_duplicate_tool_call(tool_id, state):
                 self._enter_finalize_due_to_duplicate(state, tool_name)
                 continue
 
-            # Execute exactly one tool call
+            # Split explanation (prefix) and JSON tool call; store separately for UI clarity
+            explanation_added = False
+            json_added = False
+            try:
+                import re as _re
+                m_json = _re.search(r'`?\{\s*"name"\s*:\s*"', text)
+                if m_json:
+                    prefix = text[:m_json.start()].strip('\n ')
+                    json_and_after = text[m_json.start():].strip()
+                    # Isolate just the JSON object for clarity (up to first closing brace balance)
+                    json_obj_match = _re.match(r'`?(\{.*\})`?$', json_and_after, _re.DOTALL)
+                    json_block = json_and_after
+                    if json_obj_match:
+                        json_block = json_obj_match.group(1)
+                    # Append explanation if substantive
+                    if prefix and len(prefix) > 8:
+                        last_msg = next((m for m in reversed(self.sandbox.messages) if isinstance(m, ModelResponse)), None)
+                        last_content = last_msg.parts[0].content if last_msg and getattr(last_msg, 'parts', None) else None
+                        if prefix != last_content:
+                            self._append_model_text(prefix)
+                            explanation_added = True
+                    # Append JSON block if not duplicate
+                    last_msg2 = next((m for m in reversed(self.sandbox.messages) if isinstance(m, ModelResponse)), None)
+                    last_content2 = last_msg2.parts[0].content if last_msg2 and getattr(last_msg2, 'parts', None) else None
+                    if json_block and json_block != last_content2:
+                        self._append_model_text(json_block)
+                        json_added = True
+                else:
+                    # No JSON found; treat entire text as explanation
+                    cleaned = text.strip()
+                    if cleaned:
+                        last_msg = next((m for m in reversed(self.sandbox.messages) if isinstance(m, ModelResponse)), None)
+                        last_content = last_msg.parts[0].content if last_msg and getattr(last_msg, 'parts', None) else None
+                        if cleaned != last_content:
+                            self._append_model_text(cleaned)
+                            explanation_added = True
+            except Exception:
+                cleaned = text.strip()
+                if cleaned:
+                    self._append_model_text(cleaned)
+
+            # Execute exactly one tool call (after recording reasoning)
             success = await self._execute_tool(tool_name, arguments, tool_id, state)
             if not success:
                 self._append_model_note("Tool returned no result; attempt final answer or different tool.")
@@ -226,6 +264,13 @@ class ChainOfThought:
 
             # Step accounting and mode transitions
             state.tools_run += 1
+            # Immediately force finalization if configured (prevents endless tool loops)
+            if self.config.auto_finalize_after_tool:
+                state.mode = Mode.FINALIZING
+                self._append_model_note(
+                    f"Tool step complete. Use the tool output above. Provide final answer ending with {COT_END_PROMPT} or justify ONE new tool if truly needed."
+                )
+                continue
             if state.tools_run >= self.config.max_tool_steps:
                 self._enter_finalize_due_to_cap(state)
                 continue
@@ -277,15 +322,17 @@ class ChainOfThought:
             f"{self.tool_summaries}\n\n"
             f"{plan_hint}"
             "When a tool is required:\n"
+            "  - Ensure you are NOT repeating steps"
             "  - First, explain *why* the tool is needed.\n"
             "  - Then, output ONE inline backticked JSON object exactly like: \n"
             "    `{\"name\": \"tool_name\", \"arguments\": {...}}`\n"
             "    (Do NOT use triple backtick code fences; use a single pair of backticks.)\n\n"
-            "Tools will return JSON responses. Wait for the tool’s (ModelResponse) output before continuing.\n"
+            "Tools will return JSON responses. Wait for the tool’s (ModelResponse, ChainOfThought:Tool:<Tool Used>) output before continuing.\n"
             "Follow the user’s instructions faithfully.\n"
             f'If the tool call directly answers the user, give the final answer and end with "{COT_END_PROMPT}".\n'
             "Final answers should always be concise and to the point and summarize the operations performed."
             f'Keep reasoning only for multi-tool queries. Always end with "{COT_END_PROMPT}".\n\n'
+            f'If tools are not answering the problem, just say you cannot answer the user problem and end with "{COT_END_PROMPT}".\n\n'
             "USER PROBLEM:\n"
             f"{problem_description}"
         )
@@ -425,7 +472,13 @@ class ChainOfThought:
         Args:
             text (str): The text to include in the model note.
         """
-        self._append_model_note("Final answer unavailable; summarizing best effort. " + text)
+        summary = (
+            "Final answer unavailable from model after multiple finalize nudges; summarizing best effort: "
+            + text.strip()[:500]
+        )
+        final_with_sentinel = summary + f" {COT_END_PROMPT}"
+        final_resp = self._emit_final_answer(final_with_sentinel)
+        self._persist_trace(final_resp)
 
     def _nudge_need_tool_or_final(self) -> None:
         """
@@ -504,6 +557,7 @@ class ChainOfThought:
         except Exception:
             # Fallback if parsing somehow fails
             minimal_json = json.dumps({"name": tool_name, "arguments": arguments})
+            canonical_args = json.dumps(arguments, sort_keys=True)
 
         tool_result: List[Tuple[str, str, str]] = await Tooling.execute_tool_from_text(minimal_json)
         state.executed_tool_calls.add(tool_id)
@@ -513,12 +567,23 @@ class ChainOfThought:
             return False
 
         for view, result, tool_used in tool_result:
+
             tool_resp = ModelResponse(
-                parts=[TextPart(content=result)],
+                parts=[TextPart(content=result),],
                 model_name=f"ChainOfThought:Tool:{tool_used}",
                 timestamp=datetime.now(timezone.utc),
             )
             self._append(tool_resp, view=view)
+
+        # Add a succinct follow-up guidance message to steer model toward synthesis instead of re-calling.
+        try:
+            summary_hint = (
+                "Summarize or proceed. If the above tool output answers the user, provide the final answer "
+                f"ending with {COT_END_PROMPT}. Otherwise justify the next distinct tool (do not repeat the same one)."
+            )
+            self._append_model_note(summary_hint)
+        except Exception:
+            pass
 
         return True
 
@@ -553,6 +618,36 @@ class ChainOfThought:
         self._append(ModelResponse(parts=[TextPart(content=note)],
                                    model_name=f"ChainOfThought:Model:{agent.name}",
                                    timestamp=datetime.now(timezone.utc),))
+
+    # ----------------------------- Auto Finalize Helpers -----------------------------
+    def _auto_finalize_from_last_tool(self) -> None:
+        """Create and emit a final answer immediately using the most recent tool result.
+
+        Avoids another model generation round (which was looping) and ensures
+        termination with sentinel.
+        """
+        last_tool_msg: Optional[ModelResponse] = None
+        for m in reversed(self.chain):
+            if isinstance(m, ModelResponse) and m.model_name.startswith("ChainOfThought:Tool:"):
+                last_tool_msg = m
+                break
+        snippet = "No tool output available."
+        if last_tool_msg and last_tool_msg.parts:
+            raw = last_tool_msg.parts[0].content
+            try:
+                marker = 'raw_response:'
+                idx = raw.find(marker)
+                extracted = raw[idx+len(marker):].strip() if idx != -1 else raw
+                snippet = extracted[:400]
+            except Exception:
+                snippet = raw[:400]
+        final_text = (
+            f"Answer derived from tool output: {snippet}\n"
+            "(Auto-finalized to prevent looping.)"
+        )
+        final_with_sentinel = final_text + f" {COT_END_PROMPT}"
+        final_resp = self._emit_final_answer(final_with_sentinel)
+        self._persist_trace(final_resp)
 
     def _dump_history_and_raise(self) -> None:
         logfire.warning("cot_no_final_answer", max_iters=self.config.max_iters)
